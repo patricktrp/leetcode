@@ -12,11 +12,11 @@ public record ProblemDTO (
         String problemName,
         Difficulty difficulty,
         String description,
-        List<String>hints,
+        List<String> hints,
         String sampleInput,
         String sampleOutput,
         String optimalComplexity,
-        Map<ProgrammingLanguage, String>placeHolderCode,
+        Map<ProgrammingLanguage, String> placeHolderCode,
         List<Category> categories
 ) {
 }
