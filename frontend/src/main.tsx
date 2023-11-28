@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import Problems from './routes/Problems';
 import Root from './routes/Root';
 import Home from './routes/Home';
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Auth0Provider
+      domain="leetcode.eu.auth0.com"
+      clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
+      authorizationParams={{
+        redirect_uri: "http://localhost:5173"
+      }}
+    >
+      <RouterProvider router={router} />
+    </Auth0Provider>
   </React.StrictMode>,
 )
