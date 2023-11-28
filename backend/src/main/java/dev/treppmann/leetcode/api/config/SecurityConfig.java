@@ -1,4 +1,4 @@
-package dev.treppmann.leetcode.api.security;
+package dev.treppmann.leetcode.api.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

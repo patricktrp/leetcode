@@ -3,6 +3,7 @@ package dev.treppmann.leetcode.api.controller;
 import dev.treppmann.leetcode.api.dto.ProblemDTO;
 import dev.treppmann.leetcode.api.dto.ProblemOverviewDTO;
 import dev.treppmann.leetcode.api.entity.Draft;
+import dev.treppmann.leetcode.api.entity.DraftNumber;
 import dev.treppmann.leetcode.api.service.IProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +38,5 @@ public class ProblemController {
     @PostMapping("/{problemId}/run")
     public void runSolution(@PathVariable String problemId) {
 
-    }
-
-    @GetMapping("/{problemId}/drafts")
-    public List<Draft> getDrafts() {
-        return null;
     }
 }

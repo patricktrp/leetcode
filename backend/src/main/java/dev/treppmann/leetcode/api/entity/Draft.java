@@ -12,6 +12,8 @@ public class Draft {
     @Id
     private String id;
     private String userId;
+    private String problemId;
+    private DraftNumber draftNumber;
     private ProgrammingLanguage programmingLanguage;
     private String code;
 

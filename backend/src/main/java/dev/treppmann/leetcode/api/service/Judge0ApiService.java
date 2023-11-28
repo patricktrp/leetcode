@@ -10,8 +10,6 @@ import okhttp3.RequestBody;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.net.URLEncoder;
-
 @Service
 public class Judge0ApiService implements CodeExecutionService{
     @Value("${rapidapi-key}")
