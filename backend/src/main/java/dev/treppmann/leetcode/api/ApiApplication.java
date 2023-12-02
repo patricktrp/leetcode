@@ -1,20 +1,20 @@
 package dev.treppmann.leetcode.api;
 
-import dev.treppmann.leetcode.api.entity.Category;
-import dev.treppmann.leetcode.api.entity.Difficulty;
-import dev.treppmann.leetcode.api.entity.Problem;
-import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
+import dev.treppmann.leetcode.api.entity.*;
+import dev.treppmann.leetcode.api.repository.DraftRepository;
 import dev.treppmann.leetcode.api.repository.ProblemRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
+@EnableMongoRepositories
 public class ApiApplication {
 
 	public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class ApiApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(ProblemRepository repository) {
+	CommandLineRunner runner(ProblemRepository repository, DraftRepository draftRepository) {
 		return args -> {
 			Problem twoSum = new Problem();
 			twoSum.setDescription("Write a function that takes in a non-empty array of distinct integers representing a target sum. If any two numbers in the input array sum up to the target sum, the function should return them in an array, in any order. If no two numbers sum up to the target sum, the function should return an empty array.\n\nNote that the target sum has to be obtained by summing two different integers in the array; you can't add a single integer to itself in order to obtain the the target sum.\n\nYou can assume that there will be at most one pair of numbers summing up to the target sum");
@@ -55,6 +55,22 @@ public class ApiApplication {
 			placeHolderCode.put(ProgrammingLanguage.JAVASCRIPT, "const binarySearch = (array, target) => {\n\t// Write your code here\n}");
 			binarySearch.setPlaceHolderCode(placeHolderCode);
 			repository.save(binarySearch);
+
+			Draft draft = new Draft();
+			draft.setCode("def binary_search(array, target):\n\tprint(\"hello World\")");
+			draft.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
+			draft.setUserId("d6zKWAbXQoeCVtW0O0DZNRZXa3plfgrP@clients");
+			draft.setDraftNumber(DraftNumber.ONE);
+			draft.setProblemId("two-sum");
+			draftRepository.insert(draft);
+
+			Draft draft2 = new Draft();
+			draft2.setCode("def binary_search(array, target):\n\tprint(\"hello World\")");
+			draft2.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
+			draft2.setUserId("d6zKWAbXQoeCVtW0O0DZNRZXa3plfgrP@clients");
+			draft2.setDraftNumber(DraftNumber.TWO);
+			draft2.setProblemId("two-sum");
+			draftRepository.insert(draft2);
 		};
 	}
 

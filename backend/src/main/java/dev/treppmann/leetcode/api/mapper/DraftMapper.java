@@ -6,6 +6,9 @@ import dev.treppmann.leetcode.api.entity.DraftNumber;
 
 public class DraftMapper {
     public static DraftDTO mapDraftToDTO(Draft draft) {
-        return null;
+        return new DraftDTO(
+                draft.getDraftNumber().getValue(),
+                draft.getCode()
+        );
     }
 }

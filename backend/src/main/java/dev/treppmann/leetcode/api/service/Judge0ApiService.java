@@ -7,15 +7,14 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Judge0ApiService implements CodeExecutionService{
-    @Value("${rapidapi-key}")
-    private String rapidApiKey;
-    @Value("${rapidapi-host")
-    private String rapidApiHost;
+public class Judge0ApiService implements CodeExecutionService {
+//    @Value("${rapidapi-key}")
+//    private String rapidApiKey;
+//    @Value("${rapidapi-host")
+//    private String rapidApiHost;
     private final String JUDGE0_API_BASE_URL = "https://judge0-ce.p.rapidapi.com/";
     private final MediaType JSON = MediaType.get("application/json");
     private final OkHttpClient client = new OkHttpClient();
@@ -41,8 +40,8 @@ public class Judge0ApiService implements CodeExecutionService{
                     .url(JUDGE0_API_BASE_URL)
                     .post(requestBody)
                     .addHeader("Content-Type", "application/json")
-                    .addHeader("X-RapidAPI-Key", rapidApiKey)
-                    .addHeader("X-RapidAPI-Host", rapidApiHost)
+//                    .addHeader("X-RapidAPI-Key", rapidApiKey)
+//                    .addHeader("X-RapidAPI-Host", rapidApiHost)
                     .build();
 
         } catch (JsonProcessingException e) {

@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class ProblemService implements IProblemService {
     private final ProblemRepository problemRepository;
+    private final ISubmissionService submissionService;
     private final CodeExecutionService codeExecutionService;
 
     @Autowired
-    public ProblemService(ProblemRepository problemRepository, CodeExecutionService codeExecutionService) {
+    public ProblemService(ProblemRepository problemRepository, ISubmissionService submissionService, CodeExecutionService codeExecutionService) {
         this.problemRepository = problemRepository;
+        this.submissionService = submissionService;
         this.codeExecutionService = codeExecutionService;
     }
 
