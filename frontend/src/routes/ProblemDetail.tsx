@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { getProblemById } from "../api/problems";
+import { getDrafts, getProblemById, updateDraft } from "../api/problems";
 import { QueryClient, useQuery } from '@tanstack/react-query'
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 
 const Navbar = styled.nav`
@@ -27,8 +27,17 @@ export const loader = (queryClient: QueryClient) => async ({ params }) => {
 const ProblemDetail = () => {
     const params = useParams();
     const { data: problem } = useQuery(problemDetailQuery(params.problemId));
-    const { loginWithRedirect, isAuthenticated } = useAuth0();
+    const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [programmingLanguage, setProgrammingLanguage] = useState("PYTHON");
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+        const getToken = async () => {
+            const token1 = await getAccessTokenSilently()
+            setToken(token1);
+        }
+        getToken();
+    }, [])
 
     return (
         <div>
@@ -45,7 +54,7 @@ const ProblemDetail = () => {
                     <code style={{ display: 'block' }}>{problem?.sampleInput}</code>
                     <code style={{ display: 'block' }}>{problem?.sampleOutput}</code>
                     <h3>Hints:</h3>
-                    <div>{problem?.hints.map(hint => <p>{hint}</p>)}</div>
+                    <div>{problem?.hints.map(hint => <p key={hint}>{hint}</p>)}</div>
                     <code>{problem?.optimalComplexity}</code>
                 </Panel>
                 <PanelResizeHandle />
@@ -55,7 +64,7 @@ const ProblemDetail = () => {
                         theme="vs-dark"
                         language={programmingLanguage.toLowerCase()}
                         value={problem?.placeHolderCode[programmingLanguage]}
-                        onChange={(e) => console.log(e)}
+                        onChange={(e) => updateDraft(token, params.problemId, programmingLanguage, 1, e)}
                         options={
                             {
                                 scrollBeyondLastLine: false,
@@ -65,12 +74,14 @@ const ProblemDetail = () => {
                                 },
                             }
                         }
+
                     />
                 </Panel>
             </PanelGroup>;
             <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
             <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
             <button onClick={() => isAuthenticated ? console.log("RUN CODE") : loginWithRedirect()}>Run Code</button>
+            <button onClick={() => getDrafts(token, params.problemId, programmingLanguage)}>Fetch Drafts</button>
             {/* <button onClick={() => setCode(problem.placeHolderCode[programmingLanguage])}>Reset</button> */}
         </div>
     )

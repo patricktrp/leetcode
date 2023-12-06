@@ -43,6 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         domain="leetcode.eu.auth0.com"
         clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
         authorizationParams={{
+          audience: "https://api.leetcode.treppmann.dev",
           redirect_uri: "http://localhost:5173"
         }}
       >

@@ -14,3 +14,24 @@ export const getProblemById = async (problemId: string) => {
     const res = await axiosInstance.get("/problems/" + problemId);
     return res.data;
 }
+
+export const getDrafts = async (token: string, problemId: string, programmingLanguage: string) => {
+    const res = await axiosInstance.get(`/problems/${problemId}/drafts?programmingLanguage=${programmingLanguage}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    console.log(res.status);
+    if (res.status === 401) return [];
+    console.log(res.data);
+    return res.data;
+}
+
+export const updateDraft = async (token: string, problemId: string, programmingLanguage: string, draftId: number, code: string) => {
+    const res = await axiosInstance.put(`/problems/${problemId}/drafts/${draftId}?programmingLanguage=${programmingLanguage}`, { code }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    return res.data;
+}

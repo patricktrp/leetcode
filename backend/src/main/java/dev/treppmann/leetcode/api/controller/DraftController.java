@@ -28,6 +28,7 @@ public class DraftController {
     @GetMapping
     public List<DraftDTO> getDraftsByProblemIdAndProgrammingLanguage(Principal principal, @PathVariable String problemId, @RequestParam String programmingLanguage) {
         ProgrammingLanguage programmingLanguageEnum;
+
         try {
             programmingLanguageEnum = ProgrammingLanguage.fromString(programmingLanguage);
         } catch (IllegalArgumentException e) {
