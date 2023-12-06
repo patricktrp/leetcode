@@ -7,6 +7,11 @@ import Problems from './routes/Problems';
 import Root from './routes/Root';
 import Home from './routes/Home';
 import ProblemDetail from './routes/ProblemDetail';
+import { loader as problemsLoader } from './routes/Problems';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import "@fontsource/roboto";
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -19,7 +24,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/problems",
-        element: <Problems />
+        element: <Problems />,
+        loader: problemsLoader(queryClient)
       }
     ]
   },
@@ -31,14 +37,17 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="leetcode.eu.auth0.com"
-      clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
-      authorizationParams={{
-        redirect_uri: "http://localhost:5173"
-      }}
-    >
-      <RouterProvider router={router} />
-    </Auth0Provider>
+    <QueryClientProvider client={queryClient}>
+
+      <Auth0Provider
+        domain="leetcode.eu.auth0.com"
+        clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
+        authorizationParams={{
+          redirect_uri: "http://localhost:5173"
+        }}
+      >
+        <RouterProvider router={router} />
+      </Auth0Provider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )
