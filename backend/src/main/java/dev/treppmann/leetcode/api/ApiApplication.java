@@ -55,22 +55,6 @@ public class ApiApplication {
 			placeHolderCode.put(ProgrammingLanguage.JAVASCRIPT, "const binarySearch = (array, target) => {\n\t// Write your code here\n}");
 			binarySearch.setPlaceHolderCode(placeHolderCode);
 			repository.save(binarySearch);
-
-			Draft draft = new Draft();
-			draft.setCode("def binary_search(array, target):\n\tprint(\"hello World\")");
-			draft.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
-			draft.setUserId("d6zKWAbXQoeCVtW0O0DZNRZXa3plfgrP@clients");
-			draft.setDraftNumber(DraftNumber.ONE);
-			draft.setProblemId("two-sum");
-			draftRepository.insert(draft);
-
-			Draft draft2 = new Draft();
-			draft2.setCode("def binary_search(array, target):\n\tprint(\"hello World\")");
-			draft2.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
-			draft2.setUserId("d6zKWAbXQoeCVtW0O0DZNRZXa3plfgrP@clients");
-			draft2.setDraftNumber(DraftNumber.TWO);
-			draft2.setProblemId("two-sum");
-			draftRepository.insert(draft2);
 		};
 	}
 

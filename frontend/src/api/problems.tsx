@@ -21,9 +21,7 @@ export const getDrafts = async (token: string, problemId: string, programmingLan
             'Authorization': `Bearer ${token}`
         }
     });
-    console.log(res.status);
     if (res.status === 401) return [];
-    console.log(res.data);
     return res.data;
 }
 

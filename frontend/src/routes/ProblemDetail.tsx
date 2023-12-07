@@ -1,22 +1,29 @@
 import styled from "@emotion/styled";
 import { getDrafts, getProblemById, updateDraft } from "../api/problems";
-import { QueryClient, useQuery } from '@tanstack/react-query'
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Editor from '@monaco-editor/react';
+import ProblemNavbar from "../components/ProblemNavbar";
+import { debounce } from "lodash";
+import useAccessToken from '../hooks/useAccessToken'
 
-const Navbar = styled.nav`
-    width: 100%;
-    height: 5vh;
-    background-color: #121212;
-`
+export type ProblemDetailParams = {
+    problemId: string
+}
 
 const problemDetailQuery = (problemId: string) => ({
     queryKey: ['problems', problemId],
     queryFn: async () => getProblemById(problemId)
-})
+});
+
+const draftQuery = (token: string, problemId: string, programmingLanguage: string) => ({
+    queryKey: ['problems', problemId, 'drafts', programmingLanguage],
+    queryFn: async () => getDrafts(token, problemId, programmingLanguage),
+    enabled: !!token
+});
 
 export const loader = (queryClient: QueryClient) => async ({ params }) => {
     const query = problemDetailQuery(params.problemId);
@@ -25,27 +32,36 @@ export const loader = (queryClient: QueryClient) => async ({ params }) => {
 }
 
 const ProblemDetail = () => {
-    const params = useParams();
-    const { data: problem } = useQuery(problemDetailQuery(params.problemId));
-    const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } = useAuth0();
-    const [programmingLanguage, setProgrammingLanguage] = useState("PYTHON");
-    const [token, setToken] = useState("");
+    const { loginWithRedirect, isAuthenticated } = useAuth0();
+    const { accessToken } = useAccessToken();
+    const { problemId } = useParams<ProblemDetailParams>();
 
-    useEffect(() => {
-        const getToken = async () => {
-            const token1 = await getAccessTokenSilently()
-            setToken(token1);
-        }
-        getToken();
-    }, [])
+    const [activeDraft, setActiveDraft] = useState(1);
+
+    const [programmingLanguage, setProgrammingLanguage] = useState("PYTHON");
+
+    const { data: problem } = useQuery(problemDetailQuery(problemId));
+    const { data: drafts } = useQuery(draftQuery(accessToken, problemId, programmingLanguage));
+    const client = useQueryClient();
+
+    const handleUpdate = async (updatedCode: string) => {
+        await updateDraft(accessToken, problemId, programmingLanguage, activeDraft, updatedCode);
+        await client.invalidateQueries({ queryKey: ['problems', problemId, 'drafts', programmingLanguage] })
+    }
+    const debouncedHandleUpdate = debounce(handleUpdate, 500);
+
+    const resetCodeHandler = async () => {
+        await handleUpdate(problem.placeHolderCode[programmingLanguage]);
+        await client.invalidateQueries({ queryKey: ['problems', problemId, 'drafts', programmingLanguage] })
+    }
 
     return (
         <div>
-            <Navbar>
-
-            </Navbar>
+            <ProblemNavbar />
             <PanelGroup autoSaveId="example" direction="horizontal">
-                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', height: '800px', margin: '0 10px 0 20px', padding: '20px', borderRadius: '15px' }}>
+                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', height: '800px', margin: '0 10px 0 20px', borderRadius: '15px' }}>
+                    <div style={{ height: '50px', width: '100%', backgroundColor: '#ccc', marginBottom: '50px' }}>
+                    </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <h2 style={{ marginRight: '15px' }}>{problem?.problemName}</h2>
                         <div style={{ height: '25px', width: '25px', borderRadius: '8px', backgroundColor: 'lightgreen' }}></div>
@@ -58,13 +74,22 @@ const ProblemDetail = () => {
                     <code>{problem?.optimalComplexity}</code>
                 </Panel>
                 <PanelResizeHandle />
-                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', height: '800px', color: '#fdfdfd', margin: '0 20px 0 10px', padding: '20px', borderRadius: '15px' }}>
+                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', height: '800px', color: '#fdfdfd', margin: '0 20px 0 10px', borderRadius: '15px' }}>
+                    <div style={{ height: '50px', width: '100%', backgroundColor: '#ccc', marginBottom: '50px' }}>
+                        <button onClick={() => resetCodeHandler()}>Reset</button>
+                        <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
+                        <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
+                        <button onClick={() => isAuthenticated ? console.log("RUN CODE") : loginWithRedirect()}>Run Code</button>
+                        <button onClick={() => setActiveDraft(1)}>1</button>
+                        <button onClick={() => setActiveDraft(2)}>2</button>
+                        <button onClick={() => setActiveDraft(3)}>3</button>
+                    </div>
                     <Editor height="80%"
                         // defaultLanguage={problem?.placeHolderCode[programmingLanguage].toLowerCase()}
                         theme="vs-dark"
                         language={programmingLanguage.toLowerCase()}
-                        value={problem?.placeHolderCode[programmingLanguage]}
-                        onChange={(e) => updateDraft(token, params.problemId, programmingLanguage, 1, e)}
+                        value={drafts && drafts[activeDraft - 1] ? drafts[activeDraft - 1].code : problem?.placeHolderCode[programmingLanguage]}
+                        onChange={debouncedHandleUpdate}
                         options={
                             {
                                 scrollBeyondLastLine: false,
@@ -78,11 +103,7 @@ const ProblemDetail = () => {
                     />
                 </Panel>
             </PanelGroup>;
-            <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
-            <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
-            <button onClick={() => isAuthenticated ? console.log("RUN CODE") : loginWithRedirect()}>Run Code</button>
-            <button onClick={() => getDrafts(token, params.problemId, programmingLanguage)}>Fetch Drafts</button>
-            {/* <button onClick={() => setCode(problem.placeHolderCode[programmingLanguage])}>Reset</button> */}
+            <button onClick={() => getDrafts(accessToken, problemId, programmingLanguage)}>Fetch Drafts</button>
         </div>
     )
 }
