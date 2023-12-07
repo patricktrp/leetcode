@@ -9,6 +9,7 @@ import Editor from '@monaco-editor/react';
 import ProblemNavbar from "../components/ProblemNavbar";
 import { debounce } from "lodash";
 import useAccessToken from '../hooks/useAccessToken'
+import ProblemDescription from "../components/ProblemDescription";
 
 export type ProblemDetailParams = {
     problemId: string
@@ -60,22 +61,11 @@ const ProblemDetail = () => {
             <ProblemNavbar />
             <PanelGroup autoSaveId="example" direction="horizontal">
                 <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', height: '800px', margin: '0 10px 0 20px', borderRadius: '15px' }}>
-                    <div style={{ height: '50px', width: '100%', backgroundColor: '#ccc', marginBottom: '50px' }}>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h2 style={{ marginRight: '15px' }}>{problem?.problemName}</h2>
-                        <div style={{ height: '25px', width: '25px', borderRadius: '8px', backgroundColor: 'lightgreen' }}></div>
-                    </div>
-                    <p>{problem?.description}</p>
-                    <code style={{ display: 'block' }}>{problem?.sampleInput}</code>
-                    <code style={{ display: 'block' }}>{problem?.sampleOutput}</code>
-                    <h3>Hints:</h3>
-                    <div>{problem?.hints.map(hint => <p key={hint}>{hint}</p>)}</div>
-                    <code>{problem?.optimalComplexity}</code>
+                    <ProblemDescription problem={problem} />
                 </Panel>
                 <PanelResizeHandle />
                 <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', height: '800px', color: '#fdfdfd', margin: '0 20px 0 10px', borderRadius: '15px' }}>
-                    <div style={{ height: '50px', width: '100%', backgroundColor: '#ccc', marginBottom: '50px' }}>
+                    <div style={{ height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '50px' }}>
                         <button onClick={() => resetCodeHandler()}>Reset</button>
                         <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
                         <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
@@ -102,8 +92,7 @@ const ProblemDetail = () => {
 
                     />
                 </Panel>
-            </PanelGroup>;
-            <button onClick={() => getDrafts(accessToken, problemId, programmingLanguage)}>Fetch Drafts</button>
+            </PanelGroup>
         </div>
     )
 }

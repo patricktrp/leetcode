@@ -3,14 +3,30 @@ import axios from 'axios';
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
     withCredentials: true
-})
+});
+
+export type Problem = {
+    problemId: string,
+    problemName: string,
+    difficulty: string,
+    description: string[],
+    hints: string[],
+    sampleInput: string,
+    sampleOutput: string,
+    optimalComplexity: string,
+    placeHolderCocde: {
+        PYTHON: string,
+        JAVASCRIPT: string
+    },
+    categories: string[]
+}
 
 export const getProblems = async () => {
     const res = await axiosInstance.get("/problems");
     return res.data;
 }
 
-export const getProblemById = async (problemId: string) => {
+export const getProblemById = async (problemId: string): Promise<Problem> => {
     const res = await axiosInstance.get("/problems/" + problemId);
     return res.data;
 }

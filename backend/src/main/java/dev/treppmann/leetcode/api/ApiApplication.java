@@ -25,7 +25,7 @@ public class ApiApplication {
 	CommandLineRunner runner(ProblemRepository repository, DraftRepository draftRepository) {
 		return args -> {
 			Problem twoSum = new Problem();
-			twoSum.setDescription("Write a function that takes in a non-empty array of distinct integers representing a target sum. If any two numbers in the input array sum up to the target sum, the function should return them in an array, in any order. If no two numbers sum up to the target sum, the function should return an empty array.\n\nNote that the target sum has to be obtained by summing two different integers in the array; you can't add a single integer to itself in order to obtain the the target sum.\n\nYou can assume that there will be at most one pair of numbers summing up to the target sum");
+			twoSum.setDescription(List.of("Write a function that takes in a non-empty array of distinct integers representing a target sum. If any two numbers in the input array sum up to the target sum, the function should return them in an array, in any order. If no two numbers sum up to the target sum, the function should return an empty array.", "Note that the target sum has to be obtained by summing two different integers in the array; you can't add a single integer to itself in order to obtain the the target sum.", "You can assume that there will be at most one pair of numbers summing up to the target sum"));
 			twoSum.setDifficulty(Difficulty.EASY);
 			twoSum.setOptimalComplexity("O(n) time | O(n) space - where n is the length of the input array");
 			twoSum.setCategories(List.of(Category.ARRAY));
@@ -41,7 +41,7 @@ public class ApiApplication {
 			repository.save(twoSum);
 
 			Problem binarySearch = new Problem();
-			binarySearch.setDescription("Write a function that takes in a sorted array of integers as well as a target integer. The function should use the Binary Search algorithm to determine if the target integer is contained in the array and should return its index if it is, otherwise -1.");
+			binarySearch.setDescription(List.of("Write a function that takes in a sorted array of integers as well as a target integer. The function should use the Binary Search algorithm to determine if the target integer is contained in the array and should return its index if it is, otherwise -1."));
 			binarySearch.setDifficulty(Difficulty.EASY);
 			binarySearch.setOptimalComplexity("O(log n) time | O(1) space - where n is the length of the input array");
 			binarySearch.setCategories(List.of(Category.ARRAY));

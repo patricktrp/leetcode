@@ -13,7 +13,7 @@ public record ProblemDTO (
         String problemId,
         String problemName,
         Difficulty difficulty,
-        String description,
+        List<String> description,
         List<String> hints,
         String sampleInput,
         String sampleOutput,

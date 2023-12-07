@@ -14,7 +14,7 @@ public class Problem {
     private String problemId;
     private String problemName;
     private Difficulty difficulty;
-    private String description;
+    private List<String> description;
     private List<String> hints;
     private String sampleInput;
     private String sampleOutput;
