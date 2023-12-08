@@ -3,3 +3,28 @@ body {
     font-family: "Roboto";
     background-color: #121212;
 }
+
+::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #333; /* Set the color of the thumb */
+    border-radius: 4px; /*Optional: round the corners of the thumb */
+  }
+  
+  /* For Firefox */
+  /* Note: Firefox uses a different pseudo-element for the thumb */
+  ::-moz-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 4px;
+  }
+  
+  /* Optional: Style the track (the area where the thumb moves) */
+  ::-webkit-scrollbar-track {
+    background-color: #ccc; /* Set the color of the track */
+  }
+  
+  ::-moz-scrollbar-track {
+    background-color: #ccc;
+  }

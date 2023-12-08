@@ -1,7 +1,8 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import styled from "@emotion/styled";
 import { SiLeetcode } from "react-icons/si";
 import { Link } from "react-router-dom";
-
+import ImageWrapper from "./ImageWrapper";
 
 const Navbar = styled.nav`
     height: 5vh;
@@ -16,6 +17,7 @@ const Navbar = styled.nav`
 `;
 
 const ProblemNavbar = () => {
+    const { user } = useAuth0();
     return (
         <Navbar>
             <Link to="/" style={{ color: 'inherit' }}>
@@ -23,10 +25,10 @@ const ProblemNavbar = () => {
             </Link>
             <div style={{ display: "flex" }}>
                 <div></div>
-                <button>submit</button>
+                <button style={{ backgroundColor: '#333', padding: '8px 15px', width: '120px', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}><b>Submit</b></button>
                 {/* <div>timer</div> */}
             </div>
-            <div>Profile, Settings</div>
+            <ImageWrapper picture={user?.picture} />
         </Navbar>
     )
 }

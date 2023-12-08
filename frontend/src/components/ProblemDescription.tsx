@@ -34,6 +34,9 @@ const SampleIoContainer = styled.div`
 
 const ProblemDescriptionContainer = styled.div`
     padding: 15px 20px;
+    overflow: auto;
+    height: 100%;
+    box-sizing: border-box;
 `;
 
 export type ProblemDescriptionProps = {
@@ -58,7 +61,14 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                     <code>{problem?.sampleOutput}</code>
                 </SampleIoContainer>
                 <h3>Hints</h3>
-                {problem?.hints.map(hint => <p>{hint}</p>)}
+                {problem?.hints.map((hint, idx) =>
+                    <SampleIoContainer style={{ marginBottom: '10px', cursor: 'pointer' }}>
+                        <div>Hint {idx + 1}</div>
+                    </SampleIoContainer>
+                )}
+                <SampleIoContainer style={{ marginBottom: '50px' }}>
+                    <div>Optimal Time and Space Complexity</div>
+                </SampleIoContainer>
             </ProblemDescriptionContainer>
 
             {/* <div style={{ height: '50px', width: '100%', backgroundColor: '#ccc', marginBottom: '50px' }}>

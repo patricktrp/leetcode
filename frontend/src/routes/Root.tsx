@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from '@emotion/styled';
 import { Link, Outlet } from 'react-router-dom';
+import ImageWrapper from '../components/ImageWrapper';
 
 const Navbar = styled.nav`
     height: 5vh;
@@ -26,7 +27,7 @@ const Root = () => {
             <Navbar>
                 <div>Leetcode</div>
                 <Link to="/problems">problems</Link>
-                {isAuthenticated ? <PhotoWrapper>{isAuthenticated && <img style={{ width: "100%", height: "100%", objectFit: "cover" }} src={user?.picture}></img>}</PhotoWrapper> : <button onClick={() => loginWithRedirect()}>login</button>}
+                {isAuthenticated ? <ImageWrapper picture={user?.picture} /> : <button onClick={() => loginWithRedirect()}>login</button>}
             </Navbar>
             <Outlet />
         </div>
