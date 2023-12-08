@@ -12,6 +12,7 @@ const Navbar = styled.nav`
     padding: 0 30px;
     background-color: #121212;
     color: white;
+    min-height: 60px;
 `;
 
 const ProblemNavbar = () => {
@@ -23,9 +24,9 @@ const ProblemNavbar = () => {
             <div style={{ display: "flex" }}>
                 <div></div>
                 <button>submit</button>
-                <div>timer</div>
+                {/* <div>timer</div> */}
             </div>
-            <div>hi</div>
+            <div>Profile, Settings</div>
         </Navbar>
     )
 }

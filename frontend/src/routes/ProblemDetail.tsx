@@ -65,7 +65,7 @@ const ProblemDetail = () => {
     return (
         <div>
             <ProblemNavbar />
-            <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: '95vh' }}>
+            <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: "95vh" }}>
                 <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 8px 20px 15px', borderRadius: '7px' }}>
                     <ProblemDescription problem={problem} />
                 </Panel>
@@ -73,14 +73,12 @@ const ProblemDetail = () => {
                 <Panel defaultSizePercentage={50}>
                     <PanelGroup autoSaveId="example2" direction="vertical">
                         <Panel defaultSizePercentage={55} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 15px 8px 8px', borderRadius: '7px' }}>
-                            <div style={{ height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '15px' }}>
-                                <button onClick={() => resetCodeHandler()}>Reset</button>
-                                <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
-                                <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
-                                <button onClick={() => isAuthenticated ? toast.promise(runSolutionHandler, { "pending": "Running Your Code..", success: "YAY" }) : loginWithRedirect()}>Run Code</button>
-                                <button onClick={() => setActiveDraft(1)}>1</button>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '15px' }}>
+                                <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => resetCodeHandler()}>Reset</button>
+                                <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => isAuthenticated ? toast.promise(runSolutionHandler, { "pending": "Running Your Code..", success: "YAY" }) : loginWithRedirect()}>Run Code</button>
+                                {/* <button onClick={() => setActiveDraft(1)}>1</button>
                                 <button onClick={() => setActiveDraft(2)}>2</button>
-                                <button onClick={() => setActiveDraft(3)}>3</button>
+                                <button onClick={() => setActiveDraft(3)}>3</button> */}
                             </div>
                             <Editor height="80%"
                                 // defaultLanguage={problem?.placeHolderCode[programmingLanguage].toLowerCase()}
