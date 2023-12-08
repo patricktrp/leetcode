@@ -5,8 +5,8 @@ export type ImageWrapperProps = {
 }
 
 const PhotoWrapper = styled.div`
-    width: 4.5vh;
-    height: 4.5vh;
+    width: 4vh;
+    height: 4vh;
     border-radius: 50%; 
     overflow: hidden; 
     cursor: pointer;

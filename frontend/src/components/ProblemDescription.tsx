@@ -16,7 +16,7 @@ const DifficultySquare = styled.div`
     margin-left: 15px;
 
     &.easy {
-        background-color: lightgreen;
+        background-color: #22c55e;
     }
     &.medium {
         background-color: yellow;
@@ -70,19 +70,6 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                     <div>Optimal Time and Space Complexity</div>
                 </SampleIoContainer>
             </ProblemDescriptionContainer>
-
-            {/* <div style={{ height: '50px', width: '100%', backgroundColor: '#ccc', marginBottom: '50px' }}>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h2 style={{ marginRight: '15px' }}>{problem?.problemName}</h2>
-                        <div style={{ height: '25px', width: '25px', borderRadius: '8px', backgroundColor: 'lightgreen' }}></div>
-                    </div>
-                    <p>{problem?.description}</p>
-                    <code style={{ display: 'block' }}>{problem?.sampleInput}</code>
-                    <code style={{ display: 'block' }}>{problem?.sampleOutput}</code>
-                    <h3>Hints:</h3>
-                    <div>{problem?.hints.map(hint => <p key={hint}>{hint}</p>)}</div>
-                    <code>{problem?.optimalComplexity}</code> */}
         </>
     );
 }

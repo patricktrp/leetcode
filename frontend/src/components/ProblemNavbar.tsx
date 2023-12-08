@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ImageWrapper from "./ImageWrapper";
 
 const Navbar = styled.nav`
-    height: 5vh;
+    height: 6vh;
     background-color: red;
     display: flex;
     align-items: center;
@@ -25,7 +25,7 @@ const ProblemNavbar = () => {
             </Link>
             <div style={{ display: "flex" }}>
                 <div></div>
-                <button style={{ backgroundColor: '#333', padding: '8px 15px', width: '120px', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}><b>Submit</b></button>
+                <button style={{ backgroundColor: '#22c55e', width: '120px', color: 'white', padding: "11px 15px", border: 'none', borderRadius: '5px', cursor: 'pointer' }}><b>Submit</b></button>
                 {/* <div>timer</div> */}
             </div>
             <ImageWrapper picture={user?.picture} />

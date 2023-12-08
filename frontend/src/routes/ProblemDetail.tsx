@@ -65,7 +65,7 @@ const ProblemDetail = () => {
     return (
         <div>
             <ProblemNavbar />
-            <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: "95vh" }}>
+            <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: "94vh" }}>
                 <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 8px 20px 15px', borderRadius: '7px' }}>
                     <ProblemDescription problem={problem} />
                 </Panel>

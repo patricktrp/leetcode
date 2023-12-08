@@ -22,7 +22,7 @@ body {
   
   /* Optional: Style the track (the area where the thumb moves) */
   ::-webkit-scrollbar-track {
-    background-color: #ccc; /* Set the color of the track */
+    background-color: #1e1e1e; /* Set the color of the track */
   }
   
   ::-moz-scrollbar-track {
