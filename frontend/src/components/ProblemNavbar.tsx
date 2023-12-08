@@ -1,4 +1,7 @@
 import styled from "@emotion/styled";
+import { SiLeetcode } from "react-icons/si";
+import { Link } from "react-router-dom";
+
 
 const Navbar = styled.nav`
     height: 5vh;
@@ -14,7 +17,9 @@ const Navbar = styled.nav`
 const ProblemNavbar = () => {
     return (
         <Navbar>
-            <div>Leetcode</div>
+            <Link to="/" style={{ color: 'inherit' }}>
+                <SiLeetcode size={20} />
+            </Link>
             <div style={{ display: "flex" }}>
                 <div></div>
                 <button>submit</button>

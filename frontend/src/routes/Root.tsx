@@ -1,7 +1,6 @@
-import { Outlet } from 'react-router-dom';
-import styled from '@emotion/styled';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { Link, Outlet } from 'react-router-dom';
 
 const Navbar = styled.nav`
     height: 5vh;
@@ -10,7 +9,7 @@ const Navbar = styled.nav`
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-`
+    `
 
 const PhotoWrapper = styled.div`
     width: 3.5vh;

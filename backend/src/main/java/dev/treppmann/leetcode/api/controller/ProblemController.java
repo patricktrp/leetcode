@@ -1,13 +1,19 @@
 package dev.treppmann.leetcode.api.controller;
 
+import dev.treppmann.leetcode.api.dto.CodeRunRequest;
 import dev.treppmann.leetcode.api.dto.ProblemDTO;
 import dev.treppmann.leetcode.api.dto.ProblemOverviewDTO;
 import dev.treppmann.leetcode.api.entity.Draft;
 import dev.treppmann.leetcode.api.entity.DraftNumber;
+import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
 import dev.treppmann.leetcode.api.service.IProblemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -36,7 +42,13 @@ public class ProblemController {
     }
 
     @PostMapping("/{problemId}/run")
-    public void runSolution(@PathVariable String problemId) {
-
+    public void runSolution(Principal principal, @PathVariable String problemId, @RequestParam String programmingLanguage, @RequestBody @Valid CodeRunRequest codeRunRequest) {
+        ProgrammingLanguage programmingLanguageEnum;
+        try {
+            programmingLanguageEnum = ProgrammingLanguage.fromString(programmingLanguage);
+        } catch (IllegalArgumentException e) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+        }
+        problemService.runSolution(principal.getName(), programmingLanguageEnum, codeRunRequest);
     }
 }

@@ -1,8 +1,10 @@
 package dev.treppmann.leetcode.api.service;
 
+import dev.treppmann.leetcode.api.dto.CodeRunRequest;
 import dev.treppmann.leetcode.api.dto.ProblemDTO;
 import dev.treppmann.leetcode.api.dto.ProblemOverviewDTO;
 import dev.treppmann.leetcode.api.entity.Problem;
+import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
 import dev.treppmann.leetcode.api.mapper.ProblemMapper;
 import dev.treppmann.leetcode.api.repository.ProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,10 @@ public class ProblemService implements IProblemService {
     public ProblemDTO getProblemById(String problemId) {
         Problem problem = problemRepository.findById(problemId).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
         return ProblemMapper.mapProblemToDTO(problem);
+    }
+
+    @Override
+    public void runSolution(String userId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest) {
+        codeExecutionService.executeCode(programmingLanguage, codeRunRequest.code());
     }
 }

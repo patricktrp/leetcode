@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { getProblems } from '../api/problems';
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { getProblems } from '../api/problems';
 
 const problemQuery = () => ({
     queryKey: ['problems'],

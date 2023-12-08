@@ -1,15 +1,16 @@
-import styled from "@emotion/styled";
-import { getDrafts, getProblemById, updateDraft } from "../api/problems";
-import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { useState } from 'react';
-import Editor from '@monaco-editor/react';
-import ProblemNavbar from "../components/ProblemNavbar";
+import { Editor } from '@monaco-editor/react';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { debounce } from "lodash";
-import useAccessToken from '../hooks/useAccessToken'
+import { useState } from 'react';
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getDrafts, getProblemById, runSolution, updateDraft } from "../api/problems";
 import ProblemDescription from "../components/ProblemDescription";
+import ProblemNavbar from "../components/ProblemNavbar";
+import useAccessToken from '../hooks/useAccessToken';
 
 export type ProblemDetailParams = {
     problemId: string
@@ -56,44 +57,62 @@ const ProblemDetail = () => {
         await client.invalidateQueries({ queryKey: ['problems', problemId, 'drafts', programmingLanguage] })
     }
 
+    const runSolutionHandler = async () => {
+        if (!isAuthenticated) loginWithRedirect();
+        const result = await runSolution(accessToken, problemId, programmingLanguage, drafts[activeDraft - 1].code);
+    }
+
     return (
         <div>
             <ProblemNavbar />
-            <PanelGroup autoSaveId="example" direction="horizontal">
-                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', height: '800px', margin: '0 10px 0 20px', borderRadius: '15px' }}>
+            <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: '95vh' }}>
+                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 8px 20px 15px', borderRadius: '7px' }}>
                     <ProblemDescription problem={problem} />
                 </Panel>
                 <PanelResizeHandle />
-                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', height: '800px', color: '#fdfdfd', margin: '0 20px 0 10px', borderRadius: '15px' }}>
-                    <div style={{ height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '50px' }}>
-                        <button onClick={() => resetCodeHandler()}>Reset</button>
-                        <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
-                        <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
-                        <button onClick={() => isAuthenticated ? console.log("RUN CODE") : loginWithRedirect()}>Run Code</button>
-                        <button onClick={() => setActiveDraft(1)}>1</button>
-                        <button onClick={() => setActiveDraft(2)}>2</button>
-                        <button onClick={() => setActiveDraft(3)}>3</button>
-                    </div>
-                    <Editor height="80%"
-                        // defaultLanguage={problem?.placeHolderCode[programmingLanguage].toLowerCase()}
-                        theme="vs-dark"
-                        language={programmingLanguage.toLowerCase()}
-                        value={drafts && drafts[activeDraft - 1] ? drafts[activeDraft - 1].code : problem?.placeHolderCode[programmingLanguage]}
-                        onChange={debouncedHandleUpdate}
-                        options={
-                            {
-                                scrollBeyondLastLine: false,
-                                fontSize: 18,
-                                minimap: {
-                                    enabled: false
-                                },
-                            }
-                        }
+                <Panel defaultSizePercentage={50}>
+                    <PanelGroup autoSaveId="example2" direction="vertical">
+                        <Panel defaultSizePercentage={55} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 15px 8px 8px', borderRadius: '7px' }}>
+                            <div style={{ height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '15px' }}>
+                                <button onClick={() => resetCodeHandler()}>Reset</button>
+                                <button onClick={() => setProgrammingLanguage("JAVASCRIPT")}>Javascript</button>
+                                <button onClick={() => setProgrammingLanguage("PYTHON")}>Python</button>
+                                <button onClick={() => isAuthenticated ? toast.promise(runSolutionHandler, { "pending": "Running Your Code..", success: "YAY" }) : loginWithRedirect()}>Run Code</button>
+                                <button onClick={() => setActiveDraft(1)}>1</button>
+                                <button onClick={() => setActiveDraft(2)}>2</button>
+                                <button onClick={() => setActiveDraft(3)}>3</button>
+                            </div>
+                            <Editor height="80%"
+                                // defaultLanguage={problem?.placeHolderCode[programmingLanguage].toLowerCase()}
+                                theme="vs-dark"
+                                language={programmingLanguage.toLowerCase()}
+                                value={drafts && drafts[activeDraft - 1] ? drafts[activeDraft - 1].code : problem?.placeHolderCode[programmingLanguage]}
+                                onChange={debouncedHandleUpdate}
+                                options={
+                                    {
+                                        scrollBeyondLastLine: false,
+                                        fontSize: 18,
+                                        minimap: {
+                                            enabled: false
+                                        },
+                                    }
+                                }
 
-                    />
+                            />
+                        </Panel>
+                        <PanelResizeHandle />
+                        <Panel defaultSizePercentage={45} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '8px 15px 20px 8px', borderRadius: '7px' }}>
+                            test cases go here
+                        </Panel>
+                    </PanelGroup>
                 </Panel>
             </PanelGroup>
-        </div>
+            <ToastContainer
+                position="bottom-right"
+                theme="dark"
+
+            />
+        </div >
     )
 }
 

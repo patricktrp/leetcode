@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { String } from 'lodash';
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -14,7 +15,7 @@ export type Problem = {
     sampleInput: string,
     sampleOutput: string,
     optimalComplexity: string,
-    placeHolderCocde: {
+    placeHolderCode: {
         PYTHON: string,
         JAVASCRIPT: string
     },
@@ -46,6 +47,17 @@ export const updateDraft = async (token: string, problemId: string, programmingL
         headers: {
             'Authorization': `Bearer ${token}`
         },
+    });
+    return res.data;
+}
+
+export const runSolution = async (token: string, problemId: string, programmingLanguage: string, code: String): Promise<any> => {
+    const res = await axiosInstance.post(`/problems/${problemId}/run?programmingLanguage=${programmingLanguage}`, {
+        code
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     });
     return res.data;
 }
