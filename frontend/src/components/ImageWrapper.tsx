@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 
 export type ImageWrapperProps = {
-    picture: string
+    picture?: string
+    onClick?: () => void
 }
 
 const PhotoWrapper = styled.div`
-    width: 4vh;
-    height: 4vh;
+    width: 2.7em;
+    height: 2.7em;
     border-radius: 50%; 
     overflow: hidden; 
     cursor: pointer;
@@ -18,9 +19,9 @@ const Img = styled.img`
     object-fit: cover;
 `;
 
-const ImageWrapper: React.FC<ImageWrapperProps> = ({ picture }) => {
+const ImageWrapper: React.FC<ImageWrapperProps> = ({ picture, onClick }) => {
     return (
-        <PhotoWrapper>
+        <PhotoWrapper onClick={onClick}>
             <Img src={picture}></Img>
         </PhotoWrapper >
     );

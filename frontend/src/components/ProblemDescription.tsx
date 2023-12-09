@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Problem } from "../api/problems";
 
 const Header = styled.div`
-    background-color: #333;
+    background-color: ${props => props.theme.colors.backgroundHighlight};
     height: 50px;
     display: flex;
     align-items: center;
@@ -16,17 +16,17 @@ const DifficultySquare = styled.div`
     margin-left: 15px;
 
     &.easy {
-        background-color: #22c55e;
+        background-color: ${props => props.theme.colors.problemEasy};
     }
     &.medium {
-        background-color: yellow;
+        background-color: ${props => props.theme.colors.problemMedium};
     }
     &.hard {
-        background-color: red;
+        background-color: ${props => props.theme.colors.problemHard};
     }
 `
 
-const SampleIoContainer = styled.div`
+const HighlightContainer = styled.div`
     padding: 15px;
     background-color: #333;
     border-radius: 5px;
@@ -53,22 +53,22 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
             <ProblemDescriptionContainer>
                 {problem?.description.map(paragraph => <p>{paragraph}</p>)}
                 <h3>Sample Input</h3>
-                <SampleIoContainer>
+                <HighlightContainer>
                     <code>{problem?.sampleInput}</code>
-                </SampleIoContainer>
+                </HighlightContainer>
                 <h3>Sample Output</h3>
-                <SampleIoContainer>
+                <HighlightContainer>
                     <code>{problem?.sampleOutput}</code>
-                </SampleIoContainer>
+                </HighlightContainer>
                 <h3>Hints</h3>
                 {problem?.hints.map((hint, idx) =>
-                    <SampleIoContainer style={{ marginBottom: '10px', cursor: 'pointer' }}>
+                    <HighlightContainer style={{ marginBottom: '10px', cursor: 'pointer' }}>
                         <div>Hint {idx + 1}</div>
-                    </SampleIoContainer>
+                    </HighlightContainer>
                 )}
-                <SampleIoContainer style={{ marginBottom: '50px' }}>
+                <HighlightContainer style={{ marginBottom: '50px', cursor: 'pointer' }}>
                     <div>Optimal Time and Space Complexity</div>
-                </SampleIoContainer>
+                </HighlightContainer>
             </ProblemDescriptionContainer>
         </>
     );

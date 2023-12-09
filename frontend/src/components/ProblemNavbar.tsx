@@ -1,34 +1,46 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "@emotion/styled";
-import { SiLeetcode } from "react-icons/si";
+import { FaGear } from "react-icons/fa6";
+import { LuBrackets } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import ImageWrapper from "./ImageWrapper";
 
+
 const Navbar = styled.nav`
     height: 6vh;
-    background-color: red;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px;
-    background-color: #121212;
+    background-color: ${(props) => props.theme.colors.background};
     color: white;
     min-height: 60px;
+`;
+
+const IconWrapper = styled.div`
+    cursor: pointer;
+
+    &:hover {
+        color: ${(props) => props.theme.colors.primary};
+      }
 `;
 
 const ProblemNavbar = () => {
     const { user } = useAuth0();
     return (
         <Navbar>
-            <Link to="/" style={{ color: 'inherit' }}>
-                <SiLeetcode size={20} />
+            <Link to="/problems" style={{ color: 'inherit' }}>
+                <IconWrapper>
+                    <LuBrackets size={24} />
+                </IconWrapper>
             </Link>
             <div style={{ display: "flex" }}>
-                <div></div>
                 <button style={{ backgroundColor: '#22c55e', width: '120px', color: 'white', padding: "11px 15px", border: 'none', borderRadius: '5px', cursor: 'pointer' }}><b>Submit</b></button>
-                {/* <div>timer</div> */}
             </div>
-            <ImageWrapper picture={user?.picture} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <IconWrapper><FaGear size={20} style={{ marginRight: '15px', cursor: 'pointer' }} /></IconWrapper>
+                <ImageWrapper picture={user?.picture} />
+            </div>
         </Navbar>
     )
 }
