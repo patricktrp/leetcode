@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import Collapsible from 'react-collapsible';
 import { Problem } from "../api/problems";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+
 
 const Header = styled.div`
     background-color: ${props => props.theme.colors.backgroundHighlight};
@@ -41,6 +43,14 @@ const ProblemDescriptionContainer = styled.div`
     box-sizing: border-box;
 `;
 
+const AnimatedChevron = styled(FaChevronDown)`
+    transition: transform 300ms;
+
+    &.open {
+        transform: rotate(-180deg);
+    }
+`;
+
 export type ProblemDescriptionProps = {
     problem: Problem
 }
@@ -65,7 +75,16 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                 <h3>Hints</h3>
                 {problem?.hints.map((hint, idx) =>
                     <HighlightContainer>
-                        <Collapsible transitionTime={200} trigger={<div style={{ width: '100%', height: '100%', cursor: 'pointer' }}>Hint {idx + 1}</div>}>
+                        <Collapsible transitionTime={200} triggerWhenOpen={
+                            <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div>Hint {idx + 1}</div>
+                                <div><AnimatedChevron className="open" /></div>
+                            </div>
+                        } trigger={
+                            <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div>Hint {idx + 1}</div>
+                                <div><AnimatedChevron /></div>
+                            </div>}>
                             <div style={{ marginTop: '15px' }}>
                                 {hint}
                             </div>
@@ -73,7 +92,18 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                     </HighlightContainer>
                 )}
                 <HighlightContainer style={{ marginBottom: '50px' }}>
-                    <Collapsible transitionTime={200} trigger={<div style={{ width: '100%', height: '100%', cursor: 'pointer', }}>Optimal Time and Space Complexity</div>}>
+                    <Collapsible transitionTime={200} triggerWhenOpen={
+                        <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div>Optimal Time and Space Complexity</div>
+                            <div><AnimatedChevron className="open" /></div>
+                        </div>
+
+                    } trigger={
+                        <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div>Optimal Time and Space Complexity</div>
+                            <div><AnimatedChevron /></div>
+                        </div>
+                    }>
                         <div style={{ marginTop: '15px' }}>
                             {problem?.optimalComplexity}
                         </div>

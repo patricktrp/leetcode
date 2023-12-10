@@ -11,6 +11,7 @@ import { getDrafts, getProblemById, runSolution, updateDraft } from "../api/prob
 import ProblemDescription from "../components/ProblemDescription";
 import ProblemNavbar from "../components/ProblemNavbar";
 import useAccessToken from '../hooks/useAccessToken';
+import { FaArrowRotateLeft } from 'react-icons/fa6';
 
 export type ProblemDetailParams = {
     problemId: string
@@ -74,7 +75,8 @@ const ProblemDetail = () => {
                     <PanelGroup autoSaveId="example2" direction="vertical">
                         <Panel defaultSizePercentage={55} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 15px 8px 8px', borderRadius: '7px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '15px' }}>
-                                <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => resetCodeHandler()}>Reset</button>
+                                <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => resetCodeHandler()}><FaArrowRotateLeft />
+                                </button>
                                 <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => isAuthenticated ? toast.promise(runSolutionHandler, { "pending": "Running Your Code..", success: "YAY" }) : loginWithRedirect()}>Run Code</button>
                                 {/* <button onClick={() => setActiveDraft(1)}>1</button>
                                 <button onClick={() => setActiveDraft(2)}>2</button>
