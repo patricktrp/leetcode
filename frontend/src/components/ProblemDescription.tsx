@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Collapsible from 'react-collapsible';
 import { Problem } from "../api/problems";
 
 const Header = styled.div`
@@ -30,6 +31,7 @@ const HighlightContainer = styled.div`
     padding: 15px;
     background-color: #333;
     border-radius: 5px;
+    margin-bottom: 10px;
 `
 
 const ProblemDescriptionContainer = styled.div`
@@ -62,12 +64,20 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                 </HighlightContainer>
                 <h3>Hints</h3>
                 {problem?.hints.map((hint, idx) =>
-                    <HighlightContainer style={{ marginBottom: '10px', cursor: 'pointer' }}>
-                        <div>Hint {idx + 1}</div>
+                    <HighlightContainer>
+                        <Collapsible transitionTime={200} trigger={<div style={{ width: '100%', height: '100%', cursor: 'pointer' }}>Hint {idx + 1}</div>}>
+                            <div style={{ marginTop: '15px' }}>
+                                {hint}
+                            </div>
+                        </Collapsible>
                     </HighlightContainer>
                 )}
-                <HighlightContainer style={{ marginBottom: '50px', cursor: 'pointer' }}>
-                    <div>Optimal Time and Space Complexity</div>
+                <HighlightContainer style={{ marginBottom: '50px' }}>
+                    <Collapsible transitionTime={200} trigger={<div style={{ width: '100%', height: '100%', cursor: 'pointer', }}>Optimal Time and Space Complexity</div>}>
+                        <div style={{ marginTop: '15px' }}>
+                            {problem.optimalComplexity}
+                        </div>
+                    </Collapsible>
                 </HighlightContainer>
             </ProblemDescriptionContainer>
         </>
