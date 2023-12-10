@@ -59,13 +59,20 @@ const ProblemDetail = () => {
     }
 
     const runSolutionHandler = async () => {
-        if (!isAuthenticated) loginWithRedirect();
-        const result = await runSolution(accessToken, problemId, programmingLanguage, drafts[activeDraft - 1].code);
+        return runSolution(accessToken, problemId, programmingLanguage, drafts[activeDraft - 1]?.code);
+        // return result;
+    }
+
+    const toastifiedSolutionHandler = async () => {
+        if (!isAuthenticated) {
+            loginWithRedirect()
+        }
+        await toast.promise(runSolutionHandler, { "pending": "Running your code...", success: "All tests passed!", error: "hmm.." })
     }
 
     return (
         <div>
-            <ProblemNavbar />
+            <ProblemNavbar isAuthenticated={isAuthenticated} login={loginWithRedirect} />
             <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: "94vh" }}>
                 <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 8px 20px 15px', borderRadius: '7px' }}>
                     <ProblemDescription problem={problem} />
@@ -77,7 +84,7 @@ const ProblemDetail = () => {
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '15px' }}>
                                 <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => resetCodeHandler()}><FaArrowRotateLeft />
                                 </button>
-                                <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => isAuthenticated ? toast.promise(runSolutionHandler, { "pending": "Running Your Code..", success: "YAY" }) : loginWithRedirect()}>Run Code</button>
+                                <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={toastifiedSolutionHandler}>Run Code</button>
                                 {/* <button onClick={() => setActiveDraft(1)}>1</button>
                                 <button onClick={() => setActiveDraft(2)}>2</button>
                                 <button onClick={() => setActiveDraft(3)}>3</button> */}

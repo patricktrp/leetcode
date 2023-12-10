@@ -57,7 +57,8 @@ export const updateDraft = async (token: string, problemId: string, programmingL
     return res.data;
 }
 
-export const runSolution = async (token: string, problemId: string, programmingLanguage: string, code: string): Promise<any> => {
+export const runSolution = async (token: string, problemId: string, programmingLanguage: string, code: string) => {
+    console.log("yessi");
     const res = await axiosInstance.post(`/problems/${problemId}/run?programmingLanguage=${programmingLanguage}`, {
         code
     }, {

@@ -49,6 +49,6 @@ public class ProblemController {
         } catch (IllegalArgumentException e) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
-        // problemService.runSolution(principal.getName(), programmingLanguageEnum, codeRunRequest);
+        problemService.runSolution(principal.getName(), programmingLanguageEnum, codeRunRequest);
     }
 }

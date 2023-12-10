@@ -25,7 +25,7 @@ const IconWrapper = styled.div`
       }
 `;
 
-const SubmitButton = styled.button`
+const StyledButton = styled.button`
     background-color: #22c55e;
     width: 120px;
     color: white;
@@ -40,7 +40,12 @@ const SubmitButton = styled.button`
     }
 `;
 
-const ProblemNavbar = () => {
+export type ProblemNavbarProps = {
+    isAuthenticated: boolean
+    login: () => void
+}
+
+const ProblemNavbar: React.FC<ProblemNavbarProps> = ({ isAuthenticated, login }) => {
     const { user } = useAuth0();
     return (
         <Navbar>
@@ -50,12 +55,14 @@ const ProblemNavbar = () => {
                 </IconWrapper>
             </Link>
             <div style={{ display: "flex" }}>
-                <SubmitButton>Submit</SubmitButton>
+                <StyledButton>Submit</StyledButton>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconWrapper><FaGear size={20} style={{ marginRight: '15px', cursor: 'pointer' }} /></IconWrapper>
-                <ImageWrapper picture={user?.picture} />
-            </div>
+            {isAuthenticated ?
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <IconWrapper><FaGear size={20} style={{ marginRight: '15px', cursor: 'pointer' }} /></IconWrapper>
+                    <ImageWrapper picture={user?.picture} />
+                </div> : <StyledButton onClick={login}>Sign In</StyledButton>
+            }
         </Navbar>
     )
 }
