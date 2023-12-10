@@ -73,14 +73,14 @@ const ProblemDetail = () => {
     return (
         <div>
             <ProblemNavbar isAuthenticated={isAuthenticated} login={loginWithRedirect} />
-            <PanelGroup autoSaveId="example" direction="horizontal" style={{ height: "94vh" }}>
-                <Panel defaultSizePercentage={50} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 8px 20px 15px', borderRadius: '7px' }}>
+            <PanelGroup direction="horizontal" style={{ height: "94vh" }}>
+                <Panel defaultSizePercentage={50} minSizePercentage={25} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 0 20px 15px', borderRadius: '7px' }}>
                     <ProblemDescription problem={problem} />
                 </Panel>
-                <PanelResizeHandle />
-                <Panel defaultSizePercentage={50}>
-                    <PanelGroup autoSaveId="example2" direction="vertical">
-                        <Panel defaultSizePercentage={55} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 15px 8px 8px', borderRadius: '7px' }}>
+                <PanelResizeHandle style={{ width: '16px' }} />
+                <Panel defaultSizePercentage={50} minSizePercentage={25}>
+                    <PanelGroup direction="vertical">
+                        <Panel defaultSizePercentage={55} minSizePercentage={35} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 15px 0 0', borderRadius: '7px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '50px', width: '100%', backgroundColor: '#333', marginBottom: '15px' }}>
                                 <button style={{ backgroundColor: '#1e1e1e', border: 'none', padding: '10px', borderRadius: '3px', color: 'white', cursor: 'pointer' }} onClick={() => resetCodeHandler()}><FaArrowRotateLeft />
                                 </button>
@@ -102,13 +102,15 @@ const ProblemDetail = () => {
                                         minimap: {
                                             enabled: false
                                         },
+                                        contextmenu: false,
+                                        folding: false,
                                     }
                                 }
 
                             />
                         </Panel>
-                        <PanelResizeHandle />
-                        <Panel defaultSizePercentage={45} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '8px 15px 20px 8px', borderRadius: '7px' }}>
+                        <PanelResizeHandle style={{ height: '16px' }} />
+                        <Panel defaultSizePercentage={45} minSizePercentage={15} style={{ backgroundColor: '#1e1e1e', color: '#fdfdfd', margin: '0 15px 20px 0', borderRadius: '7px' }}>
                             test cases go here
                         </Panel>
                     </PanelGroup>
