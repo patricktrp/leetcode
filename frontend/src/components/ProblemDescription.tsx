@@ -75,7 +75,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                 <HighlightContainer style={{ marginBottom: '50px' }}>
                     <Collapsible transitionTime={200} trigger={<div style={{ width: '100%', height: '100%', cursor: 'pointer', }}>Optimal Time and Space Complexity</div>}>
                         <div style={{ marginTop: '15px' }}>
-                            {problem.optimalComplexity}
+                            {problem?.optimalComplexity}
                         </div>
                     </Collapsible>
                 </HighlightContainer>
