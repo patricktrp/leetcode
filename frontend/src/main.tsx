@@ -50,7 +50,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
           authorizationParams={{
             audience: "https://api.leetcode.treppmann.dev",
-            redirect_uri: "http://localhost:5173"
+            redirect_uri: "http://localhost:5173/problems"
           }}
         >
           <RouterProvider router={router} />

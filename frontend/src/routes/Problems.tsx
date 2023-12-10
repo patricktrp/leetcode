@@ -6,16 +6,18 @@ import { ProblemOverview, getProblems } from '../api/problems';
 const ProblemListContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
     flex-direction: column;
     margin-top: 20px;
+    margin: 0 20px;
 `;
 
 const ProblemContainer = styled(Link)`
     background-color: ${props => props.theme.colors.backgroundHighlight};
     color: white;
     text-decoration: none;
-    width: 20%;
+    // width: 20%;
+    width: 300px;
     height: 55px;
     padding-left: 20px;
     border-radius: 5px;
@@ -61,17 +63,45 @@ export const loader = (queryClient: QueryClient) => async () => {
 const Problems = () => {
     const { data: problems } = useQuery(problemQuery())
     return (
-        <ProblemListContainer>
-            {problems.map((problem: ProblemOverview) =>
-                <ProblemContainer to={problem.problemId} key={problem.problemId}>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#22c55e', marginRight: '10px' }}></div>
-                        <div>{problem.problemName} </div>
-                    </div>
-                    <DifficultySquare className={problem.difficulty.toLowerCase()}></DifficultySquare>
-                </ProblemContainer>
-            )}
-        </ProblemListContainer>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', color: 'white' }}>
+
+            <ProblemListContainer>
+                <h2>Easy</h2>
+                {problems.filter((problem: ProblemOverview) => problem.difficulty === "EASY").map((problem: ProblemOverview) =>
+                    <ProblemContainer to={problem.problemId} key={problem.problemId}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#34ed43', marginRight: '10px' }}></div>
+                            <div>{problem.problemName} </div>
+                        </div>
+                        <DifficultySquare className={problem.difficulty.toLowerCase()}></DifficultySquare>
+                    </ProblemContainer>
+                )}
+            </ProblemListContainer>
+            <ProblemListContainer>
+                <h2>Medium</h2>
+                {problems.filter((problem: ProblemOverview) => problem.difficulty === "MEDIUM").map((problem: ProblemOverview) =>
+                    <ProblemContainer to={problem.problemId} key={problem.problemId}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#34ed43', marginRight: '10px' }}></div>
+                            <div>{problem.problemName} </div>
+                        </div>
+                        <DifficultySquare className={problem.difficulty.toLowerCase()}></DifficultySquare>
+                    </ProblemContainer>
+                )}
+            </ProblemListContainer>
+            <ProblemListContainer>
+                <h2>Hard</h2>
+                {problems.filter((problem: ProblemOverview) => problem.difficulty === "HARD").map((problem: ProblemOverview) =>
+                    <ProblemContainer to={problem.problemId} key={problem.problemId}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#34ed43', marginRight: '10px' }}></div>
+                            <div>{problem.problemName} </div>
+                        </div>
+                        <DifficultySquare className={problem.difficulty.toLowerCase()}></DifficultySquare>
+                    </ProblemContainer>
+                )}
+            </ProblemListContainer>
+        </div>
     )
 }
 

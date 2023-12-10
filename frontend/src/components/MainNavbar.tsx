@@ -2,7 +2,7 @@ import { AppState, RedirectLoginOptions } from '@auth0/auth0-react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { LuBrackets } from 'react-icons/lu';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import DropDownMenu from './DropdownMenu';
 import ImageWrapper from './ImageWrapper';
 
@@ -39,18 +39,26 @@ const SignInButton = styled.button`
     }
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
     color: inherit;
     text-decoration: none;
     margin: 0 10px;
+    transition: color 300ms;
 
     &:hover {
         color: ${(props) => props.theme.colors.primary};
     }
+
+    &.active {
+        color: ${(props) => props.theme.colors.primary};
+      }
 `;
 
-const IconWrapper = styled.div`
+const IconWrapper = styled(NavLink)`
     cursor: pointer;
+    transition: color 300ms;
+    color: inherit;
+    text-decoration: none;
 
     &:hover {
         color: ${(props) => props.theme.colors.primary};
@@ -68,7 +76,7 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ isAuthenticated, picture, login
 
     return (
         <NavBar>
-            <IconWrapper><LuBrackets size={24} /></IconWrapper>
+            <IconWrapper to="/"><LuBrackets size={24} /></IconWrapper>
             <div>
                 {LINKS.map(link => (!link.authenticated || isAuthenticated) && <StyledLink to={link.path}>{link.name}</StyledLink>)}
             </div>

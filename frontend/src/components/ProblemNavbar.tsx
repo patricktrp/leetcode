@@ -25,6 +25,21 @@ const IconWrapper = styled.div`
       }
 `;
 
+const SubmitButton = styled.button`
+    background-color: #22c55e;
+    width: 120px;
+    color: white;
+    padding: 11px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: filter 300ms;
+
+    &:hover {
+        filter: brightness(1.1);
+    }
+`;
+
 const ProblemNavbar = () => {
     const { user } = useAuth0();
     return (
@@ -35,7 +50,7 @@ const ProblemNavbar = () => {
                 </IconWrapper>
             </Link>
             <div style={{ display: "flex" }}>
-                <button style={{ backgroundColor: '#22c55e', width: '120px', color: 'white', padding: "11px 15px", border: 'none', borderRadius: '5px', cursor: 'pointer' }}><b>Submit</b></button>
+                <SubmitButton>Submit</SubmitButton>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <IconWrapper><FaGear size={20} style={{ marginRight: '15px', cursor: 'pointer' }} /></IconWrapper>

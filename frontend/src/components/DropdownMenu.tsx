@@ -5,7 +5,7 @@ import { FaArrowRightFromBracket, FaGear } from "react-icons/fa6";
 
 const DropDown = styled.div`
     position: absolute;
-    top: 6vh;
+    top: 60px;
     right: 15px;
     width: 200px;
     background-color: #333;
