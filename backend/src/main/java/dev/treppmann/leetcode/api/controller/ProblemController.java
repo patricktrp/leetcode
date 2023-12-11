@@ -1,6 +1,7 @@
 package dev.treppmann.leetcode.api.controller;
 
 import dev.treppmann.leetcode.api.dto.CodeRunRequest;
+import dev.treppmann.leetcode.api.dto.CodeRunResponse;
 import dev.treppmann.leetcode.api.dto.ProblemDTO;
 import dev.treppmann.leetcode.api.dto.ProblemOverviewDTO;
 import dev.treppmann.leetcode.api.entity.Draft;
@@ -42,7 +43,7 @@ public class ProblemController {
     }
 
     @PostMapping("/{problemId}/run")
-    public void runSolution(Principal principal, @PathVariable String problemId, @RequestParam String programmingLanguage, @RequestBody @Valid CodeRunRequest codeRunRequest) {
+    public CodeRunResponse runSolution(Principal principal, @PathVariable String problemId, @RequestParam String programmingLanguage, @RequestBody @Valid CodeRunRequest codeRunRequest) {
         ProgrammingLanguage programmingLanguageEnum;
         try {
             programmingLanguageEnum = ProgrammingLanguage.fromString(programmingLanguage);
@@ -50,5 +51,6 @@ public class ProblemController {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
         }
         problemService.runSolution(principal.getName(), programmingLanguageEnum, codeRunRequest);
+        return null;
     }
 }

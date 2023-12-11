@@ -63,7 +63,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                 <DifficultySquare className={problem?.difficulty.toLowerCase()}></DifficultySquare>
             </Header>
             <ProblemDescriptionContainer>
-                {problem?.description.map(paragraph => <p>{paragraph}</p>)}
+                {problem?.description.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
                 <h3>Sample Input</h3>
                 <HighlightContainer>
                     <code>{problem?.sampleInput}</code>
@@ -74,7 +74,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({ problem }) => {
                 </HighlightContainer>
                 <h3>Hints</h3>
                 {problem?.hints.map((hint, idx) =>
-                    <HighlightContainer>
+                    <HighlightContainer key={hint}>
                         <Collapsible transitionTime={200} triggerWhenOpen={
                             <div style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <div>Hint {idx + 1}</div>

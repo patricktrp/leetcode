@@ -8,7 +8,6 @@ import ImageWrapper from './ImageWrapper';
 
 const LINKS = [
     { name: 'Home', path: '/', authenticated: false },
-    // { name: 'About', path: '/problems', authenticated: false },
     { name: 'Problems', path: '/problems', authenticated: false },
     { name: 'Dashboard', path: '/dashboard', authenticated: true },
 ];
@@ -78,7 +77,7 @@ const MainNavbar: React.FC<MainNavbarProps> = ({ isAuthenticated, picture, login
         <NavBar>
             <IconWrapper to="/"><LuBrackets size={24} /></IconWrapper>
             <div>
-                {LINKS.map(link => (!link.authenticated || isAuthenticated) && <StyledLink to={link.path}>{link.name}</StyledLink>)}
+                {LINKS.map(link => (!link.authenticated || isAuthenticated) && <StyledLink key={link.path} to={link.path}>{link.name}</StyledLink>)}
             </div>
             {isAuthenticated ? <ImageWrapper onClick={() => setIsMenuOpen(!isMenuOpen)} picture={picture} /> : <SignInButton onClick={() => login()}>Sign In</SignInButton>}
             {isMenuOpen && <DropDownMenu onClose={() => setIsMenuOpen(false)} />}

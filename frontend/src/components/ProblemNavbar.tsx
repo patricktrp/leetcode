@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import styled from "@emotion/styled";
 import { FaGear, FaList } from "react-icons/fa6";
 import { LuBrackets } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ImageWrapper from "./ImageWrapper";
 import Timer from "./Timer";
 
@@ -41,7 +41,7 @@ const StyledButton = styled.button`
     }
 `;
 
-const CtrlButton = styled.div`
+const CtrlButton = styled(NavLink)`
 
 padding: 0 10px;
 height: 40px;
@@ -50,8 +50,9 @@ display: flex;
 cursor: pointer;
 align-items: center;
 justify-content: center;
-border-radius: 5px;`
-    ;
+border-radius: 5px;
+color: inherit;
+`;
 
 export type ProblemNavbarProps = {
     isAuthenticated: boolean
@@ -68,9 +69,8 @@ const ProblemNavbar: React.FC<ProblemNavbarProps> = ({ isAuthenticated, login })
                 </IconWrapper>
             </Link>
             <div style={{ display: "flex", alignItems: 'center' }}>
-                <CtrlButton>
+                <CtrlButton to="/problems">
                     <FaList size={20} />
-
                 </CtrlButton>
                 <StyledButton style={{ margin: '0 15px' }}>Submit</StyledButton>
                 <Timer />

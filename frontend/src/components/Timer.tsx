@@ -6,10 +6,10 @@ const TimerWrapper = styled.div`
     padding: 0 10px;
     height: 40px;
     background-color: ${(props) => props.theme.colors.backgroundHighlight};
-    display: flex;
+    // display: flex;
     cursor: pointer;
-    align-items: center;
-    justify-content: center;
+    // align-items: center;
+    // justify-content: center;
     border-radius: 5px;
 `;
 
@@ -43,7 +43,7 @@ const Timer = () => {
     };
 
     return (
-        <TimerWrapper onClick={toggleTimer}>
+        <TimerWrapper className="flex items-center content-center " onClick={toggleTimer}>
             {!isRunning && <IoMdAlarm size={25} />}
             {isRunning && <div>{formatTime(seconds)}</div>}
         </TimerWrapper>

@@ -1,6 +1,7 @@
 package dev.treppmann.leetcode.api.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.treppmann.leetcode.api.dto.CodeRunResponse;
 import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,12 @@ import java.util.Base64;
 
 @Service
 public class Judge0ApiService implements CodeExecutionService {
+    private final String PYTHON_APPENDIX = "\n" +
+            "for i in range(5):\n" +
+            "\tprint(f\"-------- Test Case {i+1} --------\")\n" +
+            "\ttwo_sum([1, 2, 3, 4], 3)\n" +
+            "\tprint()";
+
     @Value("${rapidapi-key}")
     private String rapidApiKey;
     @Value("${rapidapi-host}")
@@ -26,10 +33,11 @@ public class Judge0ApiService implements CodeExecutionService {
     }
 
     @Override
-    public void executeCode(ProgrammingLanguage programmingLanguage, String code) {
+    public CodeRunResponse executeCode(ProgrammingLanguage programmingLanguage, String code) {
         int languageId = getLanguageId(programmingLanguage);
-        if (languageId == -1) return;
+        if (languageId == -1) return null;
 
+        code += PYTHON_APPENDIX;
         String encodedSourceCode = Base64.getEncoder().encodeToString(code.getBytes());
         try {
             String jsonBody = objectMapper.writeValueAsString(new RequestBodyData(languageId, encodedSourceCode));
@@ -49,6 +57,7 @@ public class Judge0ApiService implements CodeExecutionService {
         } catch (IOException e) {
             System.out.println("Error");
         }
+        return null;
     }
 
     private static class RequestBodyData {

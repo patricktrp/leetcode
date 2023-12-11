@@ -1,7 +1,8 @@
 package dev.treppmann.leetcode.api.service;
 
+import dev.treppmann.leetcode.api.dto.CodeRunResponse;
 import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
 
 public interface CodeExecutionService {
-    void executeCode(ProgrammingLanguage programmingLanguage, String code);
+    CodeRunResponse executeCode(ProgrammingLanguage programmingLanguage, String code);
 }
