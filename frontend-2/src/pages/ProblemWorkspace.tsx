@@ -5,12 +5,14 @@ import { useState } from "react"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import { GripVerticalIcon, GripHorizontalIcon } from "lucide-react"
 import EditorPanel from "@/components/EditorPanel"
+import DescriptionPanel from "@/components/DescriptionPanel"
+import TestCasePanel from "@/components/TestCasePanel"
 
 type ProblemWorkspaceParams = {
     problemId: string
 }
 
-type ProgrammingLanguage = "python" | "javascript"
+export type ProgrammingLanguage = "python" | "javascript"
 
 type Draft = 1 | 2 | 3
 
@@ -49,20 +51,20 @@ const ProblemWorkspace = () => {
                 <Separator orientation="vertical" />
                 <Button variant="secondary">Run</Button >
             </div> */}
-            <main className="flex-1 mx-5 mb-5">
+            <main className=" mx-5 mb-5 h-full">
                 <PanelGroup direction="horizontal">
-                    <Panel className="rounded bg-card h-full p-5">
-                        <div>Problem Description</div>
+                    <Panel className="rounded bg-card" minSize={25}>
+                        <DescriptionPanel />
                     </Panel>
-                    <PanelResizeHandle className="w-3 flex items-center justify-center"><GripVerticalIcon className="w-3" /></PanelResizeHandle>
-                    <Panel className="h-full">
+                    <PanelResizeHandle className="w-3 flex items-center justify-center"><GripVerticalIcon className="w-3 h-3" /></PanelResizeHandle>
+                    <Panel minSize={25}>
                         <PanelGroup direction="vertical">
                             <Panel className="bg-card rounded" defaultSize={60} minSize={30}>
-                                <EditorPanel programmingLanguage={programmingLanguage} />
+                                <EditorPanel programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage)} />
                             </Panel>
-                            <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3" /></PanelResizeHandle>
-                            <Panel className="p-5 bg-card rounded" defaultSize={40} minSize={20}>
-                                <div>Test Cases</div>
+                            <PanelResizeHandle className="h-2 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
+                            <Panel className="bg-card rounded" defaultSize={40} minSize={20}>
+                                <TestCasePanel />
                             </Panel>
                         </PanelGroup>
                     </Panel>
