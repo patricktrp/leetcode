@@ -49,19 +49,19 @@ const ProblemWorkspace = () => {
                 <Separator orientation="vertical" />
                 <Button variant="secondary">Run</Button >
             </div> */}
-            <main className="flex-1 m-5">
+            <main className="flex-1 mx-5 mb-5">
                 <PanelGroup direction="horizontal">
-                    <Panel className="rounded bg-accent h-full p-5">
+                    <Panel className="rounded bg-card h-full p-5">
                         <div>Problem Description</div>
                     </Panel>
                     <PanelResizeHandle className="w-3 flex items-center justify-center"><GripVerticalIcon className="w-3" /></PanelResizeHandle>
                     <Panel className="h-full">
                         <PanelGroup direction="vertical">
-                            <Panel className="p-5 bg-accent rounded" defaultSize={60} minSize={30}>
+                            <Panel className="bg-card rounded" defaultSize={60} minSize={30}>
                                 <EditorPanel programmingLanguage={programmingLanguage} />
                             </Panel>
                             <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3" /></PanelResizeHandle>
-                            <Panel className="p-5 bg-accent rounded" defaultSize={40} minSize={20}>
+                            <Panel className="p-5 bg-card rounded" defaultSize={40} minSize={20}>
                                 <div>Test Cases</div>
                             </Panel>
                         </PanelGroup>

@@ -9,7 +9,7 @@ type WorkspaceNavbarProps = {
 
 const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user }) => {
     return (
-        <div className="h-16 lg:h-20 min-h-50 flex justify-between items-center px-20">
+        <div className="h-16 lg:h-20 min-h-50 flex justify-between items-center px-10">
             <List />
             <Button>Submit</Button>
             <Avatar>
