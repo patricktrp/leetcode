@@ -2,6 +2,7 @@ import { getProblems } from "@/services/api/problems";
 import { QueryClient } from "@tanstack/react-query";
 import { useLoaderData } from "react-router-dom";
 import { ProblemOverview } from "@/services/api/problems";
+import { NavLink } from "react-router-dom";
 
 const problemListQuery = () => ({
     queryKey: ['problems'],
@@ -24,7 +25,7 @@ const ProblemList = () => {
                 return (
                     <div key={difficulty}>
                         <h4>{difficulty}</h4>
-                        {problems.filter(problem => problem.difficulty === difficulty).map(problem => <div key={problem.problemId}>{problem.problemName}</div>)}
+                        {problems.filter(problem => problem.difficulty === difficulty).map(problem => <NavLink to={`/problems/${problem.problemId}`} key={problem.problemId}>{problem.problemName}</NavLink>)}
                     </div>
                 )
             })}

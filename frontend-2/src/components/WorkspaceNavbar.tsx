@@ -19,18 +19,35 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Settings } from "lucide-react"
+import { NavLink } from "react-router-dom"
+import AvatarMenu from "@/components/AvatarMenu"
 
 type WorkspaceNavbarProps = {
-    user?: User
+    user?: User,
+    onLogout: () => void
 }
 
-const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user }) => {
+const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user, onLogout }) => {
     return (
-        <div className="flex justify-between items-center px-10 h-[6vh]">
-            <div>
-                <List />
-            </div>
+        <div className="flex justify-between items-center px-14 h-[6vh]">
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <NavLink to="/problems">
+                            <List className="hover:text-primary transition-all" />
+                        </NavLink></TooltipTrigger>
+                    <TooltipContent>
+                        <p>Problem List</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
             <div className="flex items-center space-x-4 absolute left-1/2 transform -translate-x-1/2">
                 <Button>Submit</Button>
             </div>
@@ -55,18 +72,12 @@ const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user }) => {
                                         <SelectValue placeholder="Theme" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="light">16px</SelectItem>
-                                        <SelectItem value="dark">18px</SelectItem>
-                                        <SelectItem value="system">20px</SelectItem>
+                                        <SelectItem value="16">16px</SelectItem>
+                                        <SelectItem value="18">18px</SelectItem>
+                                        <SelectItem value="20">20px</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 {/* <Input id="name" value="Pedro Duarte" className="col-span-3" /> */}
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="username" className="text-right">
-                                    Username
-                                </Label>
-                                {/* <Input id="username" value="@peduarte" className="col-span-3" /> */}
                             </div>
                         </div>
                         <SheetFooter>
@@ -76,10 +87,7 @@ const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user }) => {
                         </SheetFooter>
                     </SheetContent>
                 </Sheet>
-                <Avatar>
-                    <AvatarImage src={user?.picture} />
-                    <AvatarFallback>{user?.email?.slice(0, 1) || 'U'}</AvatarFallback>
-                </Avatar>
+                <AvatarMenu user={user} onLogout={onLogout} />
             </div>
         </div >
     )

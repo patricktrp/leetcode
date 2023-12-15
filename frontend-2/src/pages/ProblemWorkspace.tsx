@@ -31,13 +31,13 @@ type ProblemWorkspaceParams = {
 }
 
 const ProblemWorkspace = () => {
-    const { user } = useAuth0();
+    const { user, logout } = useAuth0();
     const [programmingLanguage, setProgrammingLanguage] = useState<ProgrammingLanguage>("python")
     const problem = useLoaderData() as Problem
 
     return (
         <div className="flex flex-col">
-            <WorkspaceNavbar user={user} />
+            <WorkspaceNavbar user={user} onLogout={logout} />
 
             <main className="h-[calc(94vh-1rem)] mx-4 mb-4 box-border">
                 <PanelGroup direction="horizontal">

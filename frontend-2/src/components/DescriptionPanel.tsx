@@ -24,7 +24,10 @@ const DescriptionPanel: React.FC<DescriptionPanelProps> = ({ problem }) => {
             </div >
             <ScrollArea className="h-full">
                 <div className="p-9 flex flex-col">
-                    {problem.description.map(paragraph => <p key={md5(paragraph)}>{paragraph}</p>)}
+                    <h4 className="mb-4">Problem Description</h4>
+                    <div className="bg-secondary w-full p-4 rounded">
+                        {problem.description.map(paragraph => <p key={md5(paragraph)}>{paragraph}</p>)}
+                    </div>
 
                     <h4 className="mt-6 mb-4">Sample Input</h4>
                     <div className="bg-secondary w-full p-4 rounded">
