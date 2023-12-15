@@ -7,14 +7,28 @@ import { ThemeProvider } from "@/context/theme-provider"
 import Root from './pages/Root'
 import ProblemWorkspace from './pages/ProblemWorkspace'
 import { loader as problemLoader } from '@/pages/ProblemWorkspace'
+import { loader as problemListLoader } from '@/pages/ProblemList'
 import { QueryClient } from '@tanstack/react-query'
+import ProblemList from '@/pages/ProblemList'
+import Landing from '@/pages/Landing'
 
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Landing />
+      },
+      {
+        path: "/problems",
+        element: <ProblemList />,
+        loader: problemListLoader(queryClient)
+      }
+    ]
   },
   {
     path: "/problems/:problemId",

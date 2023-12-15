@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export type TestCasePanelProps = {
-    results: {}
+    results: object
 }
 
 const TestCasePanel: React.FC<TestCasePanelProps> = ({ results }) => {

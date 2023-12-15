@@ -21,9 +21,9 @@ export const loader = (queryClient: QueryClient) => async ({ params }: ProblemWo
     return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query))
 }
 
-
 export type ProgrammingLanguage = "python" | "javascript"
 export type Draft = 1 | 2 | 3
+
 type ProblemWorkspaceParams = {
     params: {
         problemId: string

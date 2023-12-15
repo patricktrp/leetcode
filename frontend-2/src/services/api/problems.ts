@@ -21,7 +21,19 @@ export type Problem = {
     categories: string[]
 }
 
+export type ProblemOverview = {
+    problemId: string,
+    problemName: string,
+    difficulty: string,
+    categories: string[]
+}
+
+export const getProblems = async (): Promise<ProblemOverview[]> => {
+    const res = await axiosInstance.get("/problems")
+    return res.data
+}
+
 export const getProblemById = async (problemId: string): Promise<Problem> => {
-    const res = await axiosInstance.get("/problems/" + problemId);
-    return res.data;
+    const res = await axiosInstance.get("/problems/" + problemId)
+    return res.data
 }
