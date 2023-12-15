@@ -41,17 +41,17 @@ const ProblemWorkspace = () => {
 
             <main className="h-[calc(94vh-1rem)] mx-4 mb-4 box-border">
                 <PanelGroup direction="horizontal">
-                    <Panel className="rounded bg-card" minSize={25}>
+                    <Panel className="rounded-lg bg-card" minSize={25}>
                         <DescriptionPanel problem={problem} />
                     </Panel>
                     <PanelResizeHandle className="w-3 flex items-center justify-center"><GripVerticalIcon className="w-3 h-3" /></PanelResizeHandle>
                     <Panel minSize={25}>
                         <PanelGroup direction="vertical">
-                            <Panel className="bg-card rounded" defaultSize={60} minSize={30}>
+                            <Panel className="bg-card rounded-lg" defaultSize={60} minSize={30}>
                                 <EditorPanel initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
                             </Panel>
                             <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
-                            <Panel className="bg-card rounded" defaultSize={40} minSize={20}>
+                            <Panel className="bg-card rounded-lg" defaultSize={40} minSize={20}>
                                 <TestCasePanel results={{}} />
                             </Panel>
                         </PanelGroup>

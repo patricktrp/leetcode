@@ -78,4 +78,7 @@
   p {
     @apply text-base leading-7 [&:not(:first-child)]:mt-2 
   }
+  code {
+    @apply font-mono font-semibold
+  }
 }
