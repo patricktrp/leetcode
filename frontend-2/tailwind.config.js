@@ -6,6 +6,11 @@ export const content = [
   './app/**/*.{ts,tsx}',
   './src/**/*.{ts,tsx}',
 ];
+export const safelist = [
+  'bg-easy',
+  'bg-medium',
+  'bg-hard'
+]
 export const theme = {
   container: {
     center: true,
@@ -21,6 +26,9 @@ export const theme = {
       ring: "hsl(var(--ring))",
       background: "hsl(var(--background))",
       foreground: "hsl(var(--foreground))",
+      easy: "var(--easy)",
+      medium: "var(--medium)",
+      hard: "var(--hard)",
       primary: {
         DEFAULT: "hsl(var(--primary))",
         foreground: "hsl(var(--primary-foreground))",

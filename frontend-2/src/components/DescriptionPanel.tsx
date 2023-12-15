@@ -17,9 +17,11 @@ const DescriptionPanel: React.FC<DescriptionPanelProps> = ({ problem }) => {
     return (
         <>
             <div className="bg-secondary flex items-center h-14 px-4">
-                <h4>{problem.problemName}</h4>
-                <div>{problem.difficulty}</div>
-            </div>
+                <div className="flex space-x-3 items-center">
+                    <h4>{problem.problemName}</h4>
+                    <div className={`w-5 h-5 rounded bg-${problem.difficulty.toLocaleLowerCase()}`}></div>
+                </div>
+            </div >
             <ScrollArea className="h-full">
                 <div className="p-9 flex flex-col">
                     {problem.description.map(paragraph => <p key={md5(paragraph)}>{paragraph}</p>)}
@@ -46,7 +48,7 @@ const DescriptionPanel: React.FC<DescriptionPanelProps> = ({ problem }) => {
                         )}
                         <div className="bg-secondary w-full px-4 rounded mb-10">
                             <AccordionItem value="complexity">
-                                <AccordionTrigger className="hover:no-underline">Optimal Time and Space Complexity</AccordionTrigger>
+                                <AccordionTrigger className="hover:no-underline">Optimal Complexity</AccordionTrigger>
                                 <AccordionContent>
                                     <p>{problem.optimalComplexity}</p>
                                 </AccordionContent>

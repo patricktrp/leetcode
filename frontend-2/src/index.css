@@ -25,6 +25,10 @@
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.5rem;
+
+    --easy: #34ed43;
+    --medium: #51adef;
+    --hard: #ef5151;
   }
  
   .dark {
@@ -47,6 +51,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
+
+    --easy: #34ed43;
+    --medium: #51adef;
+    --hard: #ef5151;
   }
 }
 

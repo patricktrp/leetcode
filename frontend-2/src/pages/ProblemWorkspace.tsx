@@ -36,10 +36,10 @@ const ProblemWorkspace = () => {
     const problem = useLoaderData() as Problem
 
     return (
-        <div className="h-screen flex flex-col">
+        <div className="flex flex-col">
             <WorkspaceNavbar user={user} />
 
-            <main className=" mx-5 mb-5 h-full">
+            <main className="h-[calc(94vh-1rem)] mx-4 mb-4 box-border">
                 <PanelGroup direction="horizontal">
                     <Panel className="rounded bg-card" minSize={25}>
                         <DescriptionPanel problem={problem} />
@@ -50,9 +50,9 @@ const ProblemWorkspace = () => {
                             <Panel className="bg-card rounded" defaultSize={60} minSize={30}>
                                 <EditorPanel initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
                             </Panel>
-                            <PanelResizeHandle className="h-2 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
+                            <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
                             <Panel className="bg-card rounded" defaultSize={40} minSize={20}>
-                                <TestCasePanel />
+                                <TestCasePanel results={{}} />
                             </Panel>
                         </PanelGroup>
                     </Panel>
