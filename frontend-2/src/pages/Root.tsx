@@ -24,7 +24,7 @@ const Root = () => {
     const [programmingLanguage, setProgrammingLanguage] = useState<ProgrammingLanguage>("PYTHON")
     return (
         <div className="m-96">
-            <Tabs defaultValue="1" onValueChange={(v) => setActiveDraft(v)} className="w-[400px]">
+            <Tabs defaultValue="1" onValueChange={(v) => setActiveDraft(v as Draft)} className="w-[400px]">
                 <TabsList>
                     <TabsTrigger value="1">1</TabsTrigger>
                     <TabsTrigger value="2">2</TabsTrigger>

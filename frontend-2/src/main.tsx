@@ -6,6 +6,10 @@ import { Auth0Provider } from '@auth0/auth0-react'
 import { ThemeProvider } from "@/context/theme-provider"
 import Root from './pages/Root'
 import ProblemWorkspace from './pages/ProblemWorkspace'
+import { loader as problemLoader } from '@/pages/ProblemWorkspace'
+import { QueryClient } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -14,7 +18,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/problems/:problemId",
-    element: <ProblemWorkspace />
+    element: <ProblemWorkspace />,
+    loader: problemLoader(queryClient)
   }
 ])
 

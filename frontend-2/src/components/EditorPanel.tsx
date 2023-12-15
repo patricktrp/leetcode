@@ -4,13 +4,9 @@ import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from "@
 import { ProgrammingLanguage } from "@/pages/ProblemWorkspace"
 import { Editor, loader } from "@monaco-editor/react"
 
-export type EditorPanelProps = {
-    programmingLanguage: ProgrammingLanguage,
-    onChangeProgrammingLanguage: () => void
-}
 
 loader.init().then((monaco) => {
-    monaco.editor.defineTheme('myTheme', {
+    monaco.editor.defineTheme('customTheme', {
         base: 'vs-dark',
         inherit: true,
         rules: [],
@@ -20,8 +16,16 @@ loader.init().then((monaco) => {
     });
 });
 
+export type EditorPanelProps = {
+    programmingLanguage: ProgrammingLanguage,
+    onChangeProgrammingLanguage: (newLanguage: string) => void,
+    initialCode: {
+        PYTHON: string,
+        JAVASCRIPT: string
+    }
+}
 
-const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage }) => {
+const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode }) => {
     return (
         <>
             <div className="bg-secondary flex items-center justify-between h-14 px-2">
@@ -48,8 +52,10 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChange
             </div>
             <div className="h-full w-full py-5 px-1">
                 <Editor height={"85%"}
-                    theme="myTheme"
+                    theme="customTheme"
+                    value={initialCode[programmingLanguage.toLocaleUpperCase()]}
                     language={programmingLanguage.toLocaleLowerCase()}
+                    loading={<div>S K E L E T O N </div>}
                     options={
                         {
                             scrollBeyondLastLine: false,
