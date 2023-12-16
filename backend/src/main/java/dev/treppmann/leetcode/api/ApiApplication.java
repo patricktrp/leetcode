@@ -3,12 +3,15 @@ package dev.treppmann.leetcode.api;
 import dev.treppmann.leetcode.api.entity.*;
 import dev.treppmann.leetcode.api.repository.DraftRepository;
 import dev.treppmann.leetcode.api.repository.ProblemRepository;
+import dev.treppmann.leetcode.api.repository.SkeletonTestCodeRepository;
+import dev.treppmann.leetcode.api.repository.TestCaseListRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +25,7 @@ public class ApiApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(ProblemRepository repository, DraftRepository draftRepository) {
+	CommandLineRunner runner(ProblemRepository repository, DraftRepository draftRepository, SkeletonTestCodeRepository skeletonTestCodeRepository, TestCaseListRepository testCasesRepository) {
 		return args -> {
 			Problem twoSum = new Problem();
 			twoSum.setDescription(List.of("Write a function that takes in a non-empty array of distinct integers representing a target sum. If any two numbers in the input array sum up to the target sum, the function should return them in an array, in any order. If no two numbers sum up to the target sum, the function should return an empty array.", "Note that the target sum has to be obtained by summing two different integers in the array; you can't add a single integer to itself in order to obtain the the target sum.", "You can assume that there will be at most one pair of numbers summing up to the target sum"));
@@ -215,6 +218,71 @@ public class ApiApplication {
 			placeHolderCode.put(ProgrammingLanguage.JAVASCRIPT, "const breadthFirstSearch = (array, targetSum) => {\n\t// Write your code here\n}");
 			breadthFirstSearch.setPlaceHolderCode(placeHolderCode);
 			repository.save(breadthFirstSearch);
+
+			SkeletonTestCode skeletonTestCode = new SkeletonTestCode();
+			skeletonTestCode.setSkeletonCode("""
+import json 
+with open('test_cases.json', 'r') as file:
+    data = json.load(file)
+    test_cases = data['testCases']
+function_name = data['functionNames']['PYTHON']
+results = []
+for idx, test_case in enumerate(test_cases):
+    print(f"-------- Test Case {idx+1} --------")
+    result = FUNCTION_NAME(*test_case['input'])
+    results.append({
+        **test_case,
+        "actual_output": result,
+        "passed": result == test_case["expectedOutput"]
+    })
+    print()
+test_cases = len(results)
+passed = sum(test_case['passed'] for test_case in results)
+result_object = {
+    'test_cases': test_cases,
+    'passed': passed,
+    'results': results
+}
+print("+++")
+print(json.dumps(result_object))
+""");
+			skeletonTestCode.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
+			skeletonTestCode.setId("skeleton-python");
+			skeletonTestCodeRepository.save(skeletonTestCode);
+
+			TestCaseList testCases = new TestCaseList();
+			Map<ProgrammingLanguage, String> functionNames = new HashMap<>();
+			functionNames.put(ProgrammingLanguage.PYTHON, "binary_search");
+			functionNames.put(ProgrammingLanguage.JAVASCRIPT, "binarySearch");
+			testCases.setFunctionNames(functionNames);
+			testCases.setProblemId("binary-search");
+			List<TestCase> testCaseList = new ArrayList<>();
+			TestCase tc = new TestCase();
+			tc.setInput(List.of(List.of(5,4,3,2,1)));
+			tc.setExpectedOutput(List.of(1,2,3,4,5));
+			TestCase tc2 = new TestCase();
+			tc2.setInput(List.of(List.of(5,5,5,5,1)));
+			tc2.setExpectedOutput(List.of(5,1,5,5,5));
+			testCaseList.add(tc);
+			testCaseList.add(tc2);
+			testCases.setTestCases(testCaseList);
+			testCases.setId("test-cases-binary-search");
+			testCasesRepository.save(testCases);
+
+			TestCaseList testCases2 = new TestCaseList();
+			functionNames = new HashMap<>();
+			functionNames.put(ProgrammingLanguage.PYTHON, "two_sum");
+			functionNames.put(ProgrammingLanguage.JAVASCRIPT, "twoSum");
+			testCases2.setFunctionNames(functionNames);
+			testCases2.setProblemId("two-sum");
+			testCaseList = new ArrayList<>();
+			tc = new TestCase();
+			tc.setInput(List.of(List.of(1,3), 4));
+			tc.setExpectedOutput(List.of(0,1));
+			testCaseList.add(tc);
+			testCases2.setTestCases(testCaseList);
+			testCases2.setId("test-cases-two-sum");
+			testCasesRepository.save(testCases2);
 		};
 	}
 

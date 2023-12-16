@@ -3,21 +3,23 @@ package dev.treppmann.leetcode.api.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.treppmann.leetcode.api.dto.CodeRunResponse;
 import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
+import dev.treppmann.leetcode.api.entity.SkeletonTestCode;
+import dev.treppmann.leetcode.api.entity.TestCaseList;
+import dev.treppmann.leetcode.api.repository.SkeletonTestCodeRepository;
+import dev.treppmann.leetcode.api.repository.TestCaseListRepository;
+import lombok.Data;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class Judge0ApiService implements CodeExecutionService {
-    private final String PYTHON_APPENDIX = "\n" +
-            "for i in range(5):\n" +
-            "\tprint(f\"-------- Test Case {i+1} --------\")\n" +
-            "\ttwo_sum([1, 2, 3, 4], 3)\n" +
-            "\tprint()";
-
     @Value("${rapidapi-key}")
     private String rapidApiKey;
     @Value("${rapidapi-host}")
@@ -25,6 +27,7 @@ public class Judge0ApiService implements CodeExecutionService {
     private final MediaType JSON = MediaType.get("application/json");
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     private int getLanguageId(ProgrammingLanguage programmingLanguage) {
         return switch (programmingLanguage) {
             case PYTHON -> 92;
@@ -33,14 +36,17 @@ public class Judge0ApiService implements CodeExecutionService {
     }
 
     @Override
-    public CodeRunResponse executeCode(ProgrammingLanguage programmingLanguage, String code) {
+    public CodeRunResponse executeCode(ProgrammingLanguage programmingLanguage, String code, String jsonTestCases) {
         int languageId = getLanguageId(programmingLanguage);
         if (languageId == -1) return null;
 
-        code += PYTHON_APPENDIX;
         String encodedSourceCode = Base64.getEncoder().encodeToString(code.getBytes());
+
+        byte[] zipData = zipJson(jsonTestCases);
+        String base64EncodedZip = Base64.getEncoder().encodeToString(zipData);
+
         try {
-            String jsonBody = objectMapper.writeValueAsString(new RequestBodyData(languageId, encodedSourceCode));
+            String jsonBody = objectMapper.writeValueAsString(new RequestBodyData(languageId, encodedSourceCode, base64EncodedZip));
             RequestBody requestBody = RequestBody.create(jsonBody, JSON);
 
             Request request = new Request.Builder()
@@ -60,31 +66,34 @@ public class Judge0ApiService implements CodeExecutionService {
         return null;
     }
 
+    @Data
     private static class RequestBodyData {
         int language_id;
         String source_code;
+        String additional_files;
 
-        public RequestBodyData(int language_id, String source_code) {
+        public RequestBodyData(int language_id, String source_code, String additional_files) {
             this.language_id = language_id;
             this.source_code = source_code;
+            this.additional_files = additional_files;
         }
+    }
 
-        public int getLanguage_id() {
-            return language_id;
+    private byte[] zipJson(String json) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ZipOutputStream zipOutputStream = new ZipOutputStream(baos);
+            zipOutputStream.putNextEntry(new ZipEntry("test_cases.json"));
+
+            // Write the JSON data to the zip stream
+            zipOutputStream.write(json.getBytes());
+            zipOutputStream.closeEntry();
+            zipOutputStream.close();
+
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        public void setLanguage_id(int language_id) {
-            this.language_id = language_id;
-        }
-
-        public String getSource_code() {
-            return source_code;
-        }
-
-        public void setSource_code(String source_code) {
-            this.source_code = source_code;
-        }
-
-        public RequestBodyData(){}
     }
 }

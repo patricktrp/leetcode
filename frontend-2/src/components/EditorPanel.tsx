@@ -23,10 +23,12 @@ export type EditorPanelProps = {
     initialCode: {
         PYTHON: string,
         JAVASCRIPT: string
-    }
+    },
+    codeIsRunning: boolean,
+    runCode: () => Promise<string>
 }
 
-const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode }) => {
+const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode, codeIsRunning, runCode }) => {
     return (
         <>
             <div className="bg-secondary flex items-center justify-between h-14 px-2">
@@ -48,7 +50,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChange
                 </Tabs>
                 <div>
                     {/* <Button size="sm" variant="outline"><RotateCcw className="h-4 w-4 p-0" /></Button> */}
-                    <Button size="sm">Run</Button>
+                    <Button size="sm" disabled={codeIsRunning} onClick={runCode}>Run</Button>
                 </div>
             </div>
             <div className="h-full w-full py-5 px-1">

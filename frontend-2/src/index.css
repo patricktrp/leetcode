@@ -29,6 +29,7 @@
     --easy: #34ed43;
     --medium: #51adef;
     --hard: #ef5151;
+
   }
  
   .dark {
@@ -51,10 +52,15 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
-
+    
     --easy: #34ed43;
     --medium: #51adef;
     --hard: #ef5151;
+    --toastify-color-progress-dark: hsl(var(--primary));
+    --toastify-color-dark: hsl(var(--background)); 
+    --toastify-color-success: hsl(var(--primary));
+    --toastify-icon-color-success: var(--toastify-color-success);
+    --toastify-color-progress-success: var(--toastify-color-success);
   }
 }
 

@@ -12,5 +12,5 @@ public interface IProblemService {
 
     ProblemDTO getProblemById(String problemId);
 
-    void runSolution(String userId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest);
+    void runSolution(String userId, String problemId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest);
 }
