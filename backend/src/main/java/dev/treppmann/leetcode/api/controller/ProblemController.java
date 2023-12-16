@@ -43,10 +43,8 @@ public class ProblemController {
     }
 
     @PostMapping("/{problemId}/run")
-    public CodeRunResponse runSolution(Principal principal, @PathVariable String problemId, @RequestParam String programmingLanguage, @RequestBody @Valid CodeRunRequest codeRunRequest) {
+    public CodeRunResponse runSolution(@PathVariable String problemId, @RequestParam String programmingLanguage, @RequestBody @Valid CodeRunRequest codeRunRequest) {
         ProgrammingLanguage programmingLanguageEnum;
-        System.out.println(principal.getName());
-        
         try {
             programmingLanguageEnum = ProgrammingLanguage.fromString(programmingLanguage);
         } catch (IllegalArgumentException e) {

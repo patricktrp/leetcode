@@ -33,7 +33,12 @@ export const getProblemById = async (problemId: string): Promise<Problem> => {
     return res.data
 }
 
-export const runCode = async (problemId: string, code: string, programmingLanguage: string): Promise<number> => {
-    const res = await api.post(`problems/${problemId}/run?programmingLanguage=${programmingLanguage}`, { code })
+export const runCode = async (problemId: string, code: string, programmingLanguage: string, token: string): Promise<number> => {
+    console.log(token)
+    const res = await api.post(`problems/${problemId}/run?programmingLanguage=${programmingLanguage}`, { code }, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return res.status
 }

@@ -7,15 +7,22 @@ import { GripVerticalIcon, GripHorizontalIcon } from "lucide-react"
 import EditorPanel from "@/components/EditorPanel"
 import DescriptionPanel from "@/components/DescriptionPanel"
 import TestCasePanel from "@/components/TestCasePanel"
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, useQuery } from '@tanstack/react-query'
 import { Problem, getProblemById, runCode } from "@/services/api/problems"
 import { ToastContainer, toast } from 'react-toastify';
 import { CheckCheck, XCircle } from "lucide-react"
 import 'react-toastify/dist/ReactToastify.css';
+import { getDrafts } from "@/services/api/drafts"
 
 const problemDetailQuery = (problemId: string) => ({
     queryKey: ['problems', problemId],
     queryFn: async () => getProblemById(problemId)
+});
+
+const draftQuery = (token: string, problemId: string, programmingLanguage: string) => ({
+    queryKey: ['problems', problemId, 'drafts', programmingLanguage],
+    queryFn: async () => getDrafts(token, problemId, programmingLanguage),
+    enabled: !!token
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -34,19 +41,17 @@ type ProblemWorkspaceParams = {
 }
 
 const ProblemWorkspace = () => {
-    const { user, logout } = useAuth0();
+    const { user, logout, getAccessTokenSilently } = useAuth0();
     const [programmingLanguage, setProgrammingLanguage] = useState<ProgrammingLanguage>("python")
     const problem = useLoaderData() as Problem
     const [codeIsRunning, setCodeIsRunning] = useState<boolean>(false)
     const [code, setCode] = useState<string>("")
 
-    console.log(code)
-
-    const mockCodeRun = async () => {
+    const runCodeHandler = async () => {
         setCodeIsRunning(true)
+        const token = await getAccessTokenSilently()
         try {
-            const status = await runCode(problem.problemId, code, programmingLanguage)
-            console.log(status)
+            await runCode(problem.problemId, code, programmingLanguage, token)
             return { "passed": true }
         } catch (error) {
             console.log(error)
@@ -55,7 +60,7 @@ const ProblemWorkspace = () => {
         }
     }
 
-    const runCodeHandler = () => toast.promise(mockCodeRun, {
+    const toastifyRunCodeHandler = () => toast.promise(runCodeHandler, {
         pending: "Running your code...",
         error: "Something went wrong",
         success: {
@@ -82,7 +87,7 @@ const ProblemWorkspace = () => {
                     <Panel minSize={25}>
                         <PanelGroup direction="vertical">
                             <Panel className="bg-card rounded-lg" defaultSize={60} minSize={30}>
-                                <EditorPanel code={code} onCodeChange={(newCode: string) => setCode(newCode)} runCode={runCodeHandler} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
+                                <EditorPanel code={code} onCodeChange={(newCode: string) => setCode(newCode)} runCode={toastifyRunCodeHandler} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
                             </Panel>
                             <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
                             <Panel className="bg-card rounded-lg" defaultSize={40} minSize={20}>

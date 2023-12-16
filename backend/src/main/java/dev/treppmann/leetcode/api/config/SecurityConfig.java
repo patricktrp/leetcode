@@ -24,7 +24,10 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable).cors(
                         corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/problems/{problemId}/run").authenticated()
+                        .requestMatchers("/problems/{problemId}/submit").authenticated()
+                        .anyRequest().permitAll())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(JwtDecoders.fromIssuerLocation(issuerUri))))
                 .build();
     }
