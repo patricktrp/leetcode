@@ -31,8 +31,8 @@ const Navbar = () => {
                 <ul className="flex space-x-3">
                     {NAV_LINKS.map(link => (
                         (isAuthenticated || !link.authenticated) &&
-                        <li>
-                            <NavLink className={({ isActive }) => isActive ? 'text-primary' : "hover:text-primary transition-all"} key={link.path} to={link.path}>{link.text}</NavLink>
+                        <li key={link.path}>
+                            <NavLink className={({ isActive }) => isActive ? 'text-primary' : "hover:text-primary transition-all"} to={link.path}>{link.text}</NavLink>
                         </li>
                     ))}
                 </ul>

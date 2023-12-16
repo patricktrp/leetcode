@@ -40,7 +40,7 @@ const DescriptionPanel: React.FC<DescriptionPanelProps> = ({ problem }) => {
                     <h4 className="mt-6 mb-4">Hints</h4>
                     <Accordion type="multiple">
                         {problem.hints.map((hint, idx) =>
-                            <div className="bg-secondary w-full px-4 rounded-lg mb-4">
+                            <div key={hint} className="bg-secondary w-full px-4 rounded-lg mb-4">
                                 <AccordionItem value={(idx + 1).toString()}>
                                     <AccordionTrigger className="hover:no-underline">Hint {idx + 1}</AccordionTrigger>
                                     <AccordionContent>

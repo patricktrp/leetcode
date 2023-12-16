@@ -279,7 +279,15 @@ print(json.dumps(result_object))
 			tc = new TestCase();
 			tc.setInput(List.of(List.of(1,3), 4));
 			tc.setExpectedOutput(List.of(0,1));
+			tc2 = new TestCase();
+			tc2.setInput(List.of(List.of(1,3,5), 6));
+			tc2.setExpectedOutput(List.of(0,2));
+			TestCase tc3 = new TestCase();
+			tc3.setInput(List.of(List.of(1,3,5, 9), 10));
+			tc3.setExpectedOutput(List.of(0,3));
 			testCaseList.add(tc);
+			testCaseList.add(tc2);
+			testCaseList.add(tc3);
 			testCases2.setTestCases(testCaseList);
 			testCases2.setId("test-cases-two-sum");
 			testCasesRepository.save(testCases2);

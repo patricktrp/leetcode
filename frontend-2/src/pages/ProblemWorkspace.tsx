@@ -8,11 +8,10 @@ import EditorPanel from "@/components/EditorPanel"
 import DescriptionPanel from "@/components/DescriptionPanel"
 import TestCasePanel from "@/components/TestCasePanel"
 import { QueryClient } from '@tanstack/react-query'
-import { Problem, getProblemById } from "@/services/api/problems"
+import { Problem, getProblemById, runCode } from "@/services/api/problems"
 import { ToastContainer, toast } from 'react-toastify';
+import { CheckCheck, XCircle } from "lucide-react"
 import 'react-toastify/dist/ReactToastify.css';
-import { CheckCheck, ListChecks, BadgeCheck, XCircle } from "lucide-react"
-import { render } from "react-dom"
 
 const problemDetailQuery = (problemId: string) => ({
     queryKey: ['problems', problemId],
@@ -39,20 +38,24 @@ const ProblemWorkspace = () => {
     const [programmingLanguage, setProgrammingLanguage] = useState<ProgrammingLanguage>("python")
     const problem = useLoaderData() as Problem
     const [codeIsRunning, setCodeIsRunning] = useState<boolean>(false)
+    const [code, setCode] = useState<string>("")
+
+    console.log(code)
 
     const mockCodeRun = async () => {
         setCodeIsRunning(true)
-        await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve("Promise resolved after 2 seconds");
-            }, 2000);
-        });
-        setCodeIsRunning(false)
-        return {
-            "passed": true
+        try {
+            const status = await runCode(problem.problemId, code, programmingLanguage)
+            console.log(status)
+            return { "passed": true }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setCodeIsRunning(false)
         }
     }
-    const runCode = () => toast.promise(mockCodeRun, {
+
+    const runCodeHandler = () => toast.promise(mockCodeRun, {
         pending: "Running your code...",
         error: "Something went wrong",
         success: {
@@ -62,25 +65,9 @@ const ProblemWorkspace = () => {
                     : <div className="flex items-center"><XCircle className="mr-2 text-hard" />{"Failed some tests.."}</div>
             },
             icon: false,
-            // hideProgressBar: true,
             autoClose: 2000,
         }
     });
-
-    //<CheckCheck className="text-primary" />
-
-    // const runCode = async () => {
-    //     const toastId = toast.loading("Running your code...")
-    //     const data = await mockCodeRun()
-    //     toast.update(toastId, {
-    //         render: data.passed ? "Passed all tests!" : "Failed some tests",
-    //         icon: data.passed ? <CheckCheck className="text-primary" /> : <XCircle className="text-red-600" />,
-    //         type: data.passed ? "success" : "error",
-    //         className: "animated",
-    //         hideProgressBar: false,
-    //         progress: 1,
-    //     })
-    // }
 
     return (
         <div className="flex flex-col">
@@ -95,7 +82,7 @@ const ProblemWorkspace = () => {
                     <Panel minSize={25}>
                         <PanelGroup direction="vertical">
                             <Panel className="bg-card rounded-lg" defaultSize={60} minSize={30}>
-                                <EditorPanel runCode={runCode} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
+                                <EditorPanel code={code} onCodeChange={(newCode: string) => setCode(newCode)} runCode={runCodeHandler} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
                             </Panel>
                             <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
                             <Panel className="bg-card rounded-lg" defaultSize={40} minSize={20}>

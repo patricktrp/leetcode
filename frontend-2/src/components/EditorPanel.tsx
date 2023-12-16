@@ -25,10 +25,12 @@ export type EditorPanelProps = {
         JAVASCRIPT: string
     },
     codeIsRunning: boolean,
-    runCode: () => Promise<string>
+    runCode: () => Promise<string>,
+    code: string,
+    onCodeChange: (newCode: string | undefined) => void
 }
 
-const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode, codeIsRunning, runCode }) => {
+const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode, codeIsRunning, runCode, code, onCodeChange }) => {
     return (
         <>
             <div className="bg-secondary flex items-center justify-between h-14 px-2">
@@ -56,6 +58,7 @@ const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChange
             <div className="h-full w-full py-5 px-1">
                 <Editor height={"85%"}
                     theme="customTheme"
+                    onChange={onCodeChange}
                     value={initialCode[programmingLanguage.toLocaleUpperCase()]}
                     language={programmingLanguage.toLocaleLowerCase()}
                     loading={

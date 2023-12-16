@@ -69,8 +69,6 @@ public class ProblemService implements IProblemService {
         skeletonCode = skeletonCode.replace("FUNCTION_NAME", testCaseList.getFunctionNames().get(programmingLanguage));
         code.append(skeletonCode);
 
-        System.out.println(code);
-
         codeExecutionService.executeCode(programmingLanguage, code.toString(), jsonTestCases);
     }
 
