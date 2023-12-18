@@ -20,16 +20,31 @@ const ProblemList = () => {
     const difficulties = Array.from(new Set(problems.map(problem => problem.difficulty)))
 
     return (
-        <div className="grid grid-cols-3 gap-4">
-            {difficulties.map(difficulty => {
-                return (
-                    <div key={difficulty}>
-                        <h4>{difficulty}</h4>
-                        {problems.filter(problem => problem.difficulty === difficulty).map(problem => <NavLink to={`/problems/${problem.problemId}`} key={problem.problemId}>{problem.problemName}</NavLink>)}
-                    </div>
-                )
-            })}
-        </div>
+        <div className="h-[94vh] w-full flex justify-center pt-16">
+            <div className="grid grid-cols-3 gap-24">
+                {difficulties.map(difficulty => {
+                    return (
+                        <div key={difficulty} className="flex flex-col items-center">
+                            <h2>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1).toLowerCase()}</h2>
+                            {problems
+                                .filter(problem => problem.difficulty === difficulty)
+                                .map(problem =>
+                                    <div key={problem.problemId} className="rounded-[5px] h-16 mt-6 w-72 bg-card flex justify-between items-center pl-5">
+                                        <div className="flex items-center">
+                                            <div className="w-4 h-4 bg-easy rounded-full mr-4"></div>
+                                            <NavLink to={`/problems/${problem.problemId}`}>
+                                                <span className="font-medium">{problem.problemName}</span>
+                                            </NavLink>
+                                        </div>
+                                        <div className={`rounded-r-[5px] h-full w-7 bg-${difficulty.toLowerCase()} border-r-8 border-${difficulty.toLowerCase()}shade`}></div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )
+                })}
+            </div>
+        </div >
     )
 }
 

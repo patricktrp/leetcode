@@ -8,7 +8,7 @@ import EditorPanel from "@/components/EditorPanel"
 import DescriptionPanel from "@/components/DescriptionPanel"
 import TestCasePanel from "@/components/TestCasePanel"
 import { QueryClient, useQuery } from '@tanstack/react-query'
-import { Problem, getProblemById, runCode } from "@/services/api/problems"
+import { CodeRunResult, Problem, getProblemById, runCode } from "@/services/api/problems"
 import { ToastContainer, toast } from 'react-toastify';
 import { CheckCheck, XCircle } from "lucide-react"
 import 'react-toastify/dist/ReactToastify.css';
@@ -46,13 +46,16 @@ const ProblemWorkspace = () => {
     const problem = useLoaderData() as Problem
     const [codeIsRunning, setCodeIsRunning] = useState<boolean>(false)
     const [code, setCode] = useState<string>("")
+    const [codeRunResult, setCodeRunResult] = useState<CodeRunResult>()
 
     const runCodeHandler = async () => {
         setCodeIsRunning(true)
         const token = await getAccessTokenSilently()
         try {
-            await runCode(problem.problemId, code, programmingLanguage, token)
-            return { "passed": true }
+            const res = await runCode(problem.problemId, code, programmingLanguage, token)
+            console.log(res)
+            setCodeRunResult(res)
+            return res
         } catch (error) {
             console.log(error)
         } finally {
@@ -65,7 +68,7 @@ const ProblemWorkspace = () => {
         error: "Something went wrong",
         success: {
             render({ data }) {
-                return data.passed
+                return data?.passedAll
                     ? <div className="flex items-center"><CheckCheck className="mr-2 text-primary" />{"Passed all test cases!"}</div>
                     : <div className="flex items-center"><XCircle className="mr-2 text-hard" />{"Failed some tests.."}</div>
             },
@@ -73,6 +76,11 @@ const ProblemWorkspace = () => {
             autoClose: 2000,
         }
     });
+
+    const handleProgrammingLanguageChange = (newLanguage) => {
+        setProgrammingLanguage(newLanguage as ProgrammingLanguage)
+        setCodeRunResult()
+    }
 
     return (
         <div className="flex flex-col">
@@ -87,11 +95,11 @@ const ProblemWorkspace = () => {
                     <Panel minSize={25}>
                         <PanelGroup direction="vertical">
                             <Panel className="bg-card rounded-lg" defaultSize={60} minSize={30}>
-                                <EditorPanel code={code} onCodeChange={(newCode: string) => setCode(newCode)} runCode={toastifyRunCodeHandler} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={(newLanguage) => setProgrammingLanguage(newLanguage as ProgrammingLanguage)} />
+                                <EditorPanel code={code} onCodeChange={(newCode: string) => setCode(newCode)} runCode={toastifyRunCodeHandler} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={handleProgrammingLanguageChange} />
                             </Panel>
                             <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
                             <Panel className="bg-card rounded-lg" defaultSize={40} minSize={20}>
-                                <TestCasePanel results={{}} />
+                                <TestCasePanel results={codeRunResult} />
                             </Panel>
                         </PanelGroup>
                     </Panel>

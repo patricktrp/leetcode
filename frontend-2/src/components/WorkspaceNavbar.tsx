@@ -77,7 +77,6 @@ const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user, onLogout }) => 
                                         <SelectItem value="20">20px</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                {/* <Input id="name" value="Pedro Duarte" className="col-span-3" /> */}
                             </div>
                         </div>
                         <SheetFooter>

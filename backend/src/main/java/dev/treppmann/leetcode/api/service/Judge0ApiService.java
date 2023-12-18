@@ -66,7 +66,7 @@ public class Judge0ApiService implements CodeExecutionService {
                 String cleanedBase64 = judge0Response.stdout().replace("\n", "");
                 byte[] decodedBytes = Base64.getDecoder().decode(cleanedBase64);
                 String output = new String(decodedBytes);
-                System.out.println(output);
+                return new CodeRunResponse(output.split("\\+\\+\\+")[0], true);
             } else {
                 String cleanedBase64 = judge0Response.stderr().replace("\n", "");
                 byte[] decodedBytes = Base64.getDecoder().decode(cleanedBase64);

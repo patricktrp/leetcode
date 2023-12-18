@@ -23,6 +23,11 @@ export type ProblemOverview = {
     categories: string[]
 }
 
+export type CodeRunResult = {
+    rawOutput: string,
+    passedAll: boolean
+}
+
 export const getProblems = async (): Promise<ProblemOverview[]> => {
     const res = await api.get("/problems")
     return res.data
@@ -33,12 +38,12 @@ export const getProblemById = async (problemId: string): Promise<Problem> => {
     return res.data
 }
 
-export const runCode = async (problemId: string, code: string, programmingLanguage: string, token: string): Promise<number> => {
-    console.log(token)
+export const runCode = async (problemId: string, code: string, programmingLanguage: string, token: string): Promise<CodeRunResult> => {
     const res = await api.post(`problems/${problemId}/run?programmingLanguage=${programmingLanguage}`, { code }, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     })
-    return res.status
+    console.log(res.data)
+    return res.data
 }

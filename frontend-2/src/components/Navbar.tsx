@@ -28,7 +28,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center px-14 h-[6vh]">
             <Brackets className="hover:text-primary cursor-pointer transition-hover" />
             <nav>
-                <ul className="flex space-x-3">
+                <ul className="flex space-x-8">
                     {NAV_LINKS.map(link => (
                         (isAuthenticated || !link.authenticated) &&
                         <li key={link.path}>

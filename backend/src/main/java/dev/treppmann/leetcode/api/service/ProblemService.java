@@ -3,6 +3,7 @@ package dev.treppmann.leetcode.api.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import dev.treppmann.leetcode.api.dto.CodeRunRequest;
+import dev.treppmann.leetcode.api.dto.CodeRunResponse;
 import dev.treppmann.leetcode.api.dto.ProblemDTO;
 import dev.treppmann.leetcode.api.dto.ProblemOverviewDTO;
 import dev.treppmann.leetcode.api.entity.Problem;
@@ -55,7 +56,7 @@ public class ProblemService implements IProblemService {
     }
 
     @Override
-    public void runSolution(String userId, String problemId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest) {
+    public CodeRunResponse runSolution(String userId, String problemId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest) {
         StringBuilder code = new StringBuilder();
 
         code.append(codeRunRequest.code());
@@ -69,7 +70,7 @@ public class ProblemService implements IProblemService {
         skeletonCode = skeletonCode.replace("FUNCTION_NAME", testCaseList.getFunctionNames().get(programmingLanguage));
         code.append(skeletonCode);
 
-        codeExecutionService.executeCode(programmingLanguage, code.toString(), jsonTestCases);
+        return codeExecutionService.executeCode(programmingLanguage, code.toString(), jsonTestCases);
     }
 
     private String convertObjectToJson(TestCaseList testCaseList) {

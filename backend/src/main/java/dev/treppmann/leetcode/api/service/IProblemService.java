@@ -1,6 +1,7 @@
 package dev.treppmann.leetcode.api.service;
 
 import dev.treppmann.leetcode.api.dto.CodeRunRequest;
+import dev.treppmann.leetcode.api.dto.CodeRunResponse;
 import dev.treppmann.leetcode.api.dto.ProblemDTO;
 import dev.treppmann.leetcode.api.dto.ProblemOverviewDTO;
 import dev.treppmann.leetcode.api.entity.ProgrammingLanguage;
@@ -12,5 +13,5 @@ public interface IProblemService {
 
     ProblemDTO getProblemById(String problemId);
 
-    void runSolution(String userId, String problemId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest);
+    CodeRunResponse runSolution(String userId, String problemId, ProgrammingLanguage programmingLanguage, CodeRunRequest codeRunRequest);
 }

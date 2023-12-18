@@ -9,7 +9,10 @@ export const content = [
 export const safelist = [
   'bg-easy',
   'bg-medium',
-  'bg-hard'
+  'bg-hard',
+  'border-easyshade',
+  'border-mediumshade',
+  'border-hardshade'
 ]
 export const theme = {
   container: {
@@ -29,6 +32,9 @@ export const theme = {
       easy: "var(--easy)",
       medium: "var(--medium)",
       hard: "var(--hard)",
+      easyshade: "var(--easy-shade)",
+      mediumshade: "var(--medium-shade)",
+      hardshade: "var(--hard-shade)",
       primary: {
         DEFAULT: "hsl(var(--primary))",
         foreground: "hsl(var(--primary-foreground))",
