@@ -221,31 +221,37 @@ public class ApiApplication {
 
 			SkeletonTestCode skeletonTestCode = new SkeletonTestCode();
 			skeletonTestCode.setSkeletonCode("""
-import json 
+pw="%J#DXrjqCdVYK6uhr#k."
+from io import StringIO
+import sys
+import json\s
+original_stdout = sys.stdout
+sys.stdout = StringIO()
 with open('test_cases.json', 'r') as file:
-    data = json.load(file)
-    test_cases = data['testCases']
+	data = json.load(file)
+	test_cases = data['testCases']
 function_name = data['functionNames']['PYTHON']
 results = []
 for idx, test_case in enumerate(test_cases):
-    print(f"-------- Test Case {idx+1} --------")
-    result = FUNCTION_NAME(*test_case['input'])
-    results.append({
-        **test_case,
-        "actual_output": result,
-        "passed": result == test_case["expectedOutput"]
-    })
-    print()
+	result = two_sum(*test_case['input'])
+	results.append({
+		**test_case,
+		"actualOutput": result,
+		"rawOutput": sys.stdout.getvalue(),
+		"passed": result == test_case["expectedOutput"]
+	})
+	sys.stdout.close()
+	sys.stdout = StringIO()
 test_cases = len(results)
 passed = sum(test_case['passed'] for test_case in results)
 result_object = {
-    'test_cases': test_cases,
-    'passed': passed,
-    'results': results
+	'totalTestCases': test_cases,
+	'passedTestCases': passed,
+	'testResults': results
 }
-print("+++")
+sys.stdout = original_stdout
 print(json.dumps(result_object))
-""");
+					""");
 			skeletonTestCode.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
 			skeletonTestCode.setId("skeleton-python");
 			skeletonTestCodeRepository.save(skeletonTestCode);

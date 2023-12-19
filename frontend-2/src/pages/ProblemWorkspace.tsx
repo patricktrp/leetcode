@@ -53,7 +53,6 @@ const ProblemWorkspace = () => {
         const token = await getAccessTokenSilently()
         try {
             const res = await runCode(problem.problemId, code, programmingLanguage, token)
-            console.log(res)
             setCodeRunResult(res)
             return res
         } catch (error) {
@@ -68,7 +67,7 @@ const ProblemWorkspace = () => {
         error: "Something went wrong",
         success: {
             render({ data }) {
-                return data?.passedAll
+                return data?.totalTestCases === data?.passedTestCases
                     ? <div className="flex items-center"><CheckCheck className="mr-2 text-primary" />{"Passed all test cases!"}</div>
                     : <div className="flex items-center"><XCircle className="mr-2 text-hard" />{"Failed some tests.."}</div>
             },
