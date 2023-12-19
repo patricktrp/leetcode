@@ -29,7 +29,10 @@ const TestCasePanel: React.FC<TestCasePanelProps> = ({ results }) => {
                     {results && activeTab === "2" &&
                         <div className="mb-16">{results.testResults.map((x, idx) =>
                             <div className="mb-4">
-                                <h3 className={`text-${x.passed ? 'easy' : 'hard'}`}>Test Case {idx + 1}</h3>
+                                <div className="flex items-center">
+                                    <div className={`mr-2 w-3 h-3 rounded-full bg-${x.passed ? 'easy' : 'hard'}`}></div>
+                                    <h3 className="mr-2">Test Case {idx + 1}</h3>
+                                </div>
                                 <div className="w-full p-4 bg-secondary rounded-lg mt-2 min-h-[55px]">
                                     {x.rawOutput.split("\n").map(xx => <div>{xx}</div>)}
                                 </div>

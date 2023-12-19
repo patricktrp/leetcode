@@ -221,7 +221,6 @@ public class ApiApplication {
 
 			SkeletonTestCode skeletonTestCode = new SkeletonTestCode();
 			skeletonTestCode.setSkeletonCode("""
-pw="%J#DXrjqCdVYK6uhr#k."
 from io import StringIO
 import sys
 import json\s
@@ -230,10 +229,9 @@ sys.stdout = StringIO()
 with open('test_cases.json', 'r') as file:
 	data = json.load(file)
 	test_cases = data['testCases']
-function_name = data['functionNames']['PYTHON']
 results = []
 for idx, test_case in enumerate(test_cases):
-	result = two_sum(*test_case['input'])
+	result = FUNCTION_NAME(*test_case['input'])
 	results.append({
 		**test_case,
 		"actualOutput": result,
@@ -254,6 +252,48 @@ print(json.dumps(result_object))
 					""");
 			skeletonTestCode.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
 			skeletonTestCode.setId("skeleton-python");
+			skeletonTestCodeRepository.save(skeletonTestCode);
+
+			skeletonTestCode = new SkeletonTestCode();
+			skeletonTestCode.setSkeletonCode("""
+const fs = require('fs');
+let capturedOutput = "";
+const originalConsoleLog = console.log;
+console.log = function (message) {
+	if (typeof message === 'string') {
+		capturedOutput += message
+	} else {
+		capturedOutput += JSON.stringify(message);
+	}
+	capturedOutput += "\\n";
+};
+const testCasesFile = 'test_cases.json';
+const data = JSON.parse(fs.readFileSync(testCasesFile, 'utf8'));
+const testCases = data['testCases'];
+const results = [];
+for (let idx = 0; idx < testCases.length; idx++) {
+	capturedOutput = "";
+	const test_case = testCases[idx];
+	const result = FUNCTION_NAME(...test_case['input']);
+	results.push({
+		...test_case,
+		"actualOutput": result,
+		"rawOutput": capturedOutput,
+		"passed": JSON.stringify(result) === JSON.stringify(test_case["expectedOutput"])
+	});
+}
+const totalTestCases = results.length;
+const passedTestCases = results.filter(test_case => test_case.passed).length;
+const resultObject = {
+	'totalTestCases': totalTestCases,
+	'passedTestCases': passedTestCases,
+	'testResults': results
+};
+console.log = originalConsoleLog;
+console.log(JSON.stringify(resultObject));
+					""");
+			skeletonTestCode.setProgrammingLanguage(ProgrammingLanguage.JAVASCRIPT);
+			skeletonTestCode.setId("skeleton-js");
 			skeletonTestCodeRepository.save(skeletonTestCode);
 
 			TestCaseList testCases = new TestCaseList();

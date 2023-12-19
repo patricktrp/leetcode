@@ -12,7 +12,9 @@ export const safelist = [
   'bg-hard',
   'border-easyshade',
   'border-mediumshade',
-  'border-hardshade'
+  'border-hardshade',
+  'text-easy',
+  'text-hard'
 ]
 export const theme = {
   container: {

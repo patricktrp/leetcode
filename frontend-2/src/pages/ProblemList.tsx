@@ -33,7 +33,7 @@ const ProblemList = () => {
                                         <div className="flex items-center">
                                             <div className="w-4 h-4 bg-easy rounded-full mr-4"></div>
                                             <NavLink to={`/problems/${problem.problemId}`}>
-                                                <span className="font-medium">{problem.problemName}</span>
+                                                <span>{problem.problemName}</span>
                                             </NavLink>
                                         </div>
                                         <div className={`rounded-r-[5px] h-full w-7 bg-${difficulty.toLowerCase()} border-r-8 border-${difficulty.toLowerCase()}shade`}></div>

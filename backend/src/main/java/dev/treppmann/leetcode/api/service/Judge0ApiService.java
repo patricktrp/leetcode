@@ -33,6 +33,8 @@ public class Judge0ApiService implements CodeExecutionService {
         return switch (programmingLanguage) {
             case PYTHON -> 92;
             case JAVASCRIPT -> 93;
+            case GO -> 95
+            ;
         };
     }
 
@@ -40,6 +42,8 @@ public class Judge0ApiService implements CodeExecutionService {
     public CodeRunResponse executeCode(ProgrammingLanguage programmingLanguage, String code, String jsonTestCases) {
         int languageId = getLanguageId(programmingLanguage);
         if (languageId == -1) return null;
+
+        System.out.println(code);
 
         String encodedSourceCode = Base64.getEncoder().encodeToString(code.getBytes());
 
@@ -66,11 +70,13 @@ public class Judge0ApiService implements CodeExecutionService {
                 String cleanedBase64 = judge0Response.stdout().replace("\n", "");
                 byte[] decodedBytes = Base64.getDecoder().decode(cleanedBase64);
                 String output = new String(decodedBytes);
+                System.out.println(output);
                 return objectMapper.readValue(output, CodeRunResponse.class);
             } else {
                 String cleanedBase64 = judge0Response.stderr().replace("\n", "");
                 byte[] decodedBytes = Base64.getDecoder().decode(cleanedBase64);
                 String output = new String(decodedBytes);
+                System.out.println(output);
             }
         } catch (IOException e) {
             System.out.println("Error");
