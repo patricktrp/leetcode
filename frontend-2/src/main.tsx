@@ -11,22 +11,27 @@ import { loader as problemListLoader } from '@/pages/ProblemList'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ProblemList from '@/pages/ProblemList'
 import Landing from '@/pages/Landing'
+import Dashboard from './pages/Dashboard'
 
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Landing />
+  },
+  {
+    path: "/",
     element: <Root />,
     children: [
-      {
-        path: "/",
-        element: <Landing />
-      },
       {
         path: "/problems",
         element: <ProblemList />,
         loader: problemListLoader(queryClient)
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />
       }
     ]
   },

@@ -86,7 +86,7 @@ const ProblemWorkspace = () => {
 
     return (
         <div className="flex flex-col">
-            <WorkspaceNavbar user={user} onLogout={logout} />
+            <WorkspaceNavbar user={user} onLogout={logout} isAuthenticated={isAuthenticated} login={loginWithRedirect} />
 
             <main className="h-[calc(94vh-1rem)] mx-4 mb-4 box-border">
                 <PanelGroup direction="horizontal">

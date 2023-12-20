@@ -3,6 +3,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { useLoaderData } from "react-router-dom";
 import { ProblemOverview } from "@/services/api/problems";
 import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const problemListQuery = () => ({
     queryKey: ['problems'],
@@ -28,10 +29,10 @@ const ProblemList = () => {
                             <h2>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1).toLowerCase()}</h2>
                             {problems
                                 .filter(problem => problem.difficulty === difficulty)
-                                .map(problem =>
+                                .map((problem, idx) =>
                                     <div key={problem.problemId} className="rounded-[5px] h-16 mt-6 w-72 bg-card flex justify-between items-center pl-5">
                                         <div className="flex items-center">
-                                            <div className="w-4 h-4 bg-easy rounded-full mr-4"></div>
+                                            <div className={cn("w-5 h-5 bg-secondary rounded-full mr-4", { "bg-easy": idx < 2 })}></div>
                                             <NavLink to={`/problems/${problem.problemId}`}>
                                                 <span>{problem.problemName}</span>
                                             </NavLink>

@@ -25,16 +25,17 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Settings } from "lucide-react"
 import { NavLink } from "react-router-dom"
 import AvatarMenu from "@/components/AvatarMenu"
 
 type WorkspaceNavbarProps = {
     user?: User,
-    onLogout: () => void
+    onLogout: () => void,
+    isAuthenticated: boolean
+    login: () => void
 }
 
-const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user, onLogout }) => {
+const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user, onLogout, isAuthenticated, login }) => {
     return (
         <div className="flex justify-between items-center px-14 h-[6vh]">
             <TooltipProvider>
@@ -82,7 +83,7 @@ const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user, onLogout }) => 
                         </SheetFooter>
                     </SheetContent>
                 </Sheet>
-                <AvatarMenu user={user} onLogout={onLogout} />
+                {isAuthenticated ? <AvatarMenu user={user} onLogout={onLogout} /> : <Button onClick={login}>Log In</Button>}
             </div>
         </div >
     )

@@ -6,11 +6,6 @@ import AvatarMenu from "@/components/AvatarMenu"
 
 const NAV_LINKS = [
     {
-        "text": "Home",
-        "path": "/",
-        "authenticated": false
-    },
-    {
         "text": "Problems",
         "path": "/problems",
         "authenticated": false
