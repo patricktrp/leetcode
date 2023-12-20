@@ -1,7 +1,8 @@
 import { api } from "./axios-config"
 
 export type Draft = {
-    id: string
+    draftId: string
+    code: string
 }
 
 export const getDrafts = async (problemId: string, token: string, programmingLanguage: string): Promise<Draft[]> => {

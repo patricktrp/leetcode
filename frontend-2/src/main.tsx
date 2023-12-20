@@ -8,7 +8,7 @@ import Root from './pages/Root'
 import ProblemWorkspace from './pages/ProblemWorkspace'
 import { loader as problemLoader } from '@/pages/ProblemWorkspace'
 import { loader as problemListLoader } from '@/pages/ProblemList'
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ProblemList from '@/pages/ProblemList'
 import Landing from '@/pages/Landing'
 
@@ -39,16 +39,18 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Auth0Provider
-        domain="leetcode.eu.auth0.com"
-        clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
-        authorizationParams={{
-          audience: "https://api.leetcode.treppmann.dev",
-          redirect_uri: "http://localhost:5173/problems"
-        }}>
-        <RouterProvider router={router} />
-      </Auth0Provider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Auth0Provider
+          domain="leetcode.eu.auth0.com"
+          clientId="fVG2PueJzxenWCjQB2fr3UquWmVbc76q"
+          authorizationParams={{
+            audience: "https://api.leetcode.treppmann.dev",
+            redirect_uri: "http://localhost:5173/problems"
+          }}>
+          <RouterProvider router={router} />
+        </Auth0Provider>
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

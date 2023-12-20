@@ -11,17 +11,13 @@ const TestCasePanel: React.FC<TestCasePanelProps> = ({ results }) => {
     const [activeTab, setActiveTab] = useState<string>("1")
     return (
         <>
-            <div className="bg-secondary flex items-center justify-between h-14 px-4">
-                <div>Output</div>
-                <div>
-                    <Tabs defaultValue={activeTab} onValueChange={(tab) => setActiveTab(tab)}>
-                        <TabsList>
-                            <TabsTrigger value="1">Custom Output</TabsTrigger>
-                            <TabsTrigger value="2">Raw Output</TabsTrigger>
-                        </TabsList>
-                    </Tabs>
-                </div>
-                <div></div>
+            <div className="bg-secondary flex items-center justify-center h-14 px-4">
+                <Tabs defaultValue={activeTab} onValueChange={(tab) => setActiveTab(tab)}>
+                    <TabsList className="bg-secondary">
+                        <TabsTrigger value="1">Custom Output</TabsTrigger>
+                        <TabsTrigger value="2">Raw Output</TabsTrigger>
+                    </TabsList>
+                </Tabs>
             </div>
             <ScrollArea className="h-full">
                 <div className="p-5">

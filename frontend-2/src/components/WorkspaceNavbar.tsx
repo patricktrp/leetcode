@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { List } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { FaGear } from "react-icons/fa6";
 import { User } from "@auth0/auth0-react"
 import {
     Sheet,
@@ -51,16 +51,12 @@ const WorkspaceNavbar: React.FC<WorkspaceNavbarProps> = ({ user, onLogout }) => 
             <div className="flex items-center space-x-4 absolute left-1/2 transform -translate-x-1/2">
                 <Button>Submit</Button>
             </div>
-            <div className="flex space-x-3 items-center">
+            <div className="flex space-x-5 items-center">
                 <Sheet>
-                    <SheetTrigger asChild><Settings className="cursor-pointer" /></SheetTrigger>
+                    <SheetTrigger asChild><FaGear size="20" className="cursor-pointer" /></SheetTrigger>
                     <SheetContent>
                         <SheetHeader>
                             <SheetTitle>Workspace Settings</SheetTitle>
-                            {/* <SheetDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
-                            </SheetDescription> */}
                         </SheetHeader>
                         <div className="grid gap-4 py-4">
                             <div className="grid grid-cols-4 items-center gap-4">

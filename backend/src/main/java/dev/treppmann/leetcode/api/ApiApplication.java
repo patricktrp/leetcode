@@ -27,6 +27,15 @@ public class ApiApplication {
 	@Bean
 	CommandLineRunner runner(ProblemRepository repository, DraftRepository draftRepository, SkeletonTestCodeRepository skeletonTestCodeRepository, TestCaseListRepository testCasesRepository) {
 		return args -> {
+			Draft draft = new Draft();
+			draft.setCode("def two_sum(array, target):\n\tprint(\"hello\")");
+			draft.setProblemId("two-sum");
+			draft.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
+			draft.setDraftNumber(DraftNumber.ONE);
+			draft.setDraftId("draft-1-two-sum");
+			draft.setUserId("github|57516425");
+			draftRepository.save(draft);
+
 			Problem twoSum = new Problem();
 			twoSum.setDescription(List.of("Write a function that takes in a non-empty array of distinct integers representing a target sum. If any two numbers in the input array sum up to the target sum, the function should return them in an array, in any order. If no two numbers sum up to the target sum, the function should return an empty array.", "Note that the target sum has to be obtained by summing two different integers in the array; you can't add a single integer to itself in order to obtain the the target sum.", "You can assume that there will be at most one pair of numbers summing up to the target sum"));
 			twoSum.setDifficulty(Difficulty.EASY);

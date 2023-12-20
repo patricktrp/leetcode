@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { CheckCheck, XCircle } from "lucide-react"
 import 'react-toastify/dist/ReactToastify.css';
 import { getDrafts } from "@/services/api/drafts"
+import { useAccessToken } from "@/hooks/useAccessToken"
 
 const problemDetailQuery = (problemId: string) => ({
     queryKey: ['problems', problemId],
@@ -21,7 +22,7 @@ const problemDetailQuery = (problemId: string) => ({
 
 const draftQuery = (token: string, problemId: string, programmingLanguage: string) => ({
     queryKey: ['problems', problemId, 'drafts', programmingLanguage],
-    queryFn: async () => getDrafts(token, problemId, programmingLanguage),
+    queryFn: async () => getDrafts(problemId, token, programmingLanguage),
     enabled: !!token
 });
 
@@ -41,12 +42,14 @@ type ProblemWorkspaceParams = {
 }
 
 const ProblemWorkspace = () => {
-    const { user, logout, getAccessTokenSilently } = useAuth0();
+    const { user, logout, getAccessTokenSilently, loginWithRedirect, isAuthenticated } = useAuth0();
     const [programmingLanguage, setProgrammingLanguage] = useState<ProgrammingLanguage>("python")
     const problem = useLoaderData() as Problem
     const [codeIsRunning, setCodeIsRunning] = useState<boolean>(false)
-    const [code, setCode] = useState<string>("")
     const [codeRunResult, setCodeRunResult] = useState<CodeRunResult>()
+    const { accessToken } = useAccessToken()
+    const { data: drafts } = useQuery(draftQuery(accessToken, problem.problemId, programmingLanguage));
+    const [code, setCode] = useState<string>("")
 
     const runCodeHandler = async () => {
         setCodeIsRunning(true)
@@ -94,7 +97,15 @@ const ProblemWorkspace = () => {
                     <Panel minSize={25}>
                         <PanelGroup direction="vertical">
                             <Panel className="bg-card rounded-lg" defaultSize={60} minSize={30}>
-                                <EditorPanel code={code} onCodeChange={(newCode: string) => setCode(newCode)} runCode={toastifyRunCodeHandler} codeIsRunning={codeIsRunning} initialCode={problem.placeHolderCode} programmingLanguage={programmingLanguage} onChangeProgrammingLanguage={handleProgrammingLanguageChange} />
+                                <EditorPanel
+                                    drafts={drafts}
+                                    code={code}
+                                    onCodeChange={(newCode: string) => setCode(newCode)}
+                                    runCode={isAuthenticated ? toastifyRunCodeHandler : loginWithRedirect}
+                                    codeIsRunning={codeIsRunning}
+                                    initialCode={problem.placeHolderCode}
+                                    programmingLanguage={programmingLanguage}
+                                    onChangeProgrammingLanguage={handleProgrammingLanguageChange} />
                             </Panel>
                             <PanelResizeHandle className="h-3 flex items-center justify-center"><GripHorizontalIcon className="h-3 w-3" /></PanelResizeHandle>
                             <Panel className="bg-card rounded-lg" defaultSize={40} minSize={20}>

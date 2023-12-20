@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select"
-import { ProgrammingLanguage } from "@/pages/ProblemWorkspace"
+import { Draft, ProgrammingLanguage } from "@/pages/ProblemWorkspace"
 import { Editor, loader } from "@monaco-editor/react"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -27,39 +27,40 @@ export type EditorPanelProps = {
     codeIsRunning: boolean,
     runCode: () => Promise<string>,
     code: string,
-    onCodeChange: (newCode: string | undefined) => void
+    onCodeChange: (newCode: string | undefined) => void,
+    drafts: Draft[]
 }
 
-const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode, codeIsRunning, runCode, code, onCodeChange }) => {
+const EditorPanel: React.FC<EditorPanelProps> = ({ programmingLanguage, onChangeProgrammingLanguage, initialCode, codeIsRunning, runCode, code, onCodeChange, drafts }) => {
+    console.log(drafts)
+    console.log(initialCode)
     return (
         <>
             <div className="bg-secondary flex items-center justify-between h-14 px-2">
-                <Select defaultValue={programmingLanguage} onValueChange={onChangeProgrammingLanguage} >
-                    <SelectTrigger className="w-[180px]">
+                <Select defaultValue={programmingLanguage} onValueChange={onChangeProgrammingLanguage}>
+                    <SelectTrigger className="w-[180px] bg-card">
                         <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-card">
                         <SelectItem value="python">Python</SelectItem>
                         <SelectItem value="javascript">JavaScript</SelectItem>
                     </SelectContent>
                 </Select>
                 <Tabs defaultValue="1" onValueChange={(v) => console.log(v)}>
-                    <TabsList>
+                    <TabsList className="bg-secondary">
                         <TabsTrigger value="1">Solution 1</TabsTrigger>
                         <TabsTrigger value="2">Solution 2</TabsTrigger>
                         <TabsTrigger value="3">Solution 3</TabsTrigger>
                     </TabsList>
                 </Tabs>
-                <div>
-                    {/* <Button size="sm" variant="outline"><RotateCcw className="h-4 w-4 p-0" /></Button> */}
-                    <Button size="sm" disabled={codeIsRunning} onClick={runCode}>Run</Button>
-                </div>
+                <Button size="sm" disabled={codeIsRunning} onClick={runCode}>Run</Button>
             </div>
             <div className="h-full w-full py-5 px-1">
                 <Editor height={"85%"}
                     theme="customTheme"
                     onChange={onCodeChange}
-                    value={initialCode[programmingLanguage.toLocaleUpperCase()]}
+                    value={code}
+                    // value={drafts && drafts.length !== 0 ? drafts[0].code : initialCode[programmingLanguage.toLocaleUpperCase()]}
                     language={programmingLanguage.toLocaleLowerCase()}
                     loading={
                         <div className="w-full h-full mx-14">
